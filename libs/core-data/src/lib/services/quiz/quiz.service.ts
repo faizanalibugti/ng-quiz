@@ -14,7 +14,7 @@ export class QuizService {
   constructor(private http: HttpClient) {}
 
   private get baseUrl(): string {
-    return `/${this.API_ENDPOINT}/${this.model}/`;
+    return `${this.API_ENDPOINT}/${this.model}/`;
   }
 
   getCategories(): Observable<TriviaCategories> {
