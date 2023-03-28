@@ -7,16 +7,25 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/angular-quiz",
         "index": "./src/index.html",
         "main": "./src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "./tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": ["./src/favicon.ico", "./src/assets"],
-        "styles": ["./src/styles.scss"],
+        "assets": [
+          "./src/favicon.ico",
+          "./src/assets"
+        ],
+        "styles": [
+          "./src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {
@@ -41,7 +50,17 @@
           "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
-          "namedChunks": true
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "src/environments/environment.ts",
+              "with": "src/environments/environment.development.ts"
+            },
+            {
+              "replace": "libs/core-data/src/lib/services/endpoints/endpoints.ts",
+              "with": "libs/core-data/src/lib/services/endpoints/endpoints.prod.ts"
+            }
+          ]
         }
       },
       "defaultConfiguration": "production"
@@ -50,12 +69,11 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "angular-quiz:build:production",
-          "proxyConfig": "src/app/proxy-prod.conf.json"
+          "browserTarget": "angular-quiz:build:production"
         },
         "development": {
           "browserTarget": "angular-quiz:build:development",
-          "proxyConfig": "src/app/proxy.conf.json"
+          "proxyConfig": "src/app/proxy-prod.conf.json"
         }
       },
       "defaultConfiguration": "development"
@@ -68,14 +86,21 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["./src/**/*.ts", "./src/**/*.html"]
+        "lintFilePatterns": [
+          "./src/**/*.ts",
+          "./src/**/*.html"
+        ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectName}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectName}"
+      ],
       "options": {
         "jestConfig": "jest.config.app.ts",
         "passWithNoTests": true
