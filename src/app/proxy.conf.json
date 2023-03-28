@@ -1,0 +1,8 @@
+{
+    "/api": {
+        "target":"https://the-trivia-api.com",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "debug"
+    }
+}
