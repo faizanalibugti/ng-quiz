@@ -1,0 +1,9 @@
+{
+    "/api": {
+    "target": "https://the-trivia-api.com/api",
+    "pathRewrite": { "^/api": "" },
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

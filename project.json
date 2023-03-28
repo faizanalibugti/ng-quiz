@@ -50,7 +50,8 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "angular-quiz:build:production"
+          "browserTarget": "angular-quiz:build:production",
+          "proxyConfig": "src/app/proxy-prod.conf.json"
         },
         "development": {
           "browserTarget": "angular-quiz:build:development",
