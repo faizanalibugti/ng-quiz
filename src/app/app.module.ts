@@ -12,18 +12,23 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import * as fromQuiz from './+state/quiz.reducer';
 import { QuizEffects } from './+state/quiz.effects';
 import { CoreDataModule } from '@angular-quiz/core-data';
+import { MaterialModule } from '@angular-quiz/material';
 import { QuestionComponent } from './question/question.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TriviaFormComponent } from './trivia-form/trivia-form.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent, QuestionComponent, TriviaFormComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
     CoreDataModule,
+    MaterialModule,
     StoreModule.forRoot(
       {},
       {

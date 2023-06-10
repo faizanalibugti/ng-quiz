@@ -1,12 +1,11 @@
-import { TriviaCategories, TriviaOptions } from '@angular-quiz/api-interfaces';
+import { TriviaCategories } from '@angular-quiz/api-interfaces';
 import { QuizService } from '@angular-quiz/core-data';
 import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
 import * as QuizActions from './quiz.actions';
-import * as QuizSelectors from './quiz.selectors';
 
 @Injectable()
 export class QuizEffects {

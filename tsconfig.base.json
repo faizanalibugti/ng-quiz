@@ -10,14 +10,27 @@
     "importHelpers": true,
     "target": "es2022",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@angular-quiz/api-interfaces": ["libs/api-interfaces/src/index.ts"],
-      "@angular-quiz/core-data": ["libs/core-data/src/index.ts"]
+      "@angular-quiz/api-interfaces": [
+        "libs/api-interfaces/src/index.ts"
+      ],
+      "@angular-quiz/core-data": [
+        "libs/core-data/src/index.ts"
+      ],
+      "@angular-quiz/material": [
+        "libs/material/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

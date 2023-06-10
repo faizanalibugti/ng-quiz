@@ -1,55 +1,56 @@
-<form #triviaForm="ngForm" class="border border-cyan-200 rounded-md px-2 py-2">
-  <div class="form-group flex justify-between">
-    <label for="limit"
-      >Number of Questions
-      <span class="font-semibold mr-3">{{ triviaOptions.limit }}</span></label
+<div class="w-full flex justify-center items-center">
+  <form
+    [formGroup]="triviaForm"
+    class="border border-cyan-200 rounded-md px-2 py-2"
+    (ngSubmit)="submitForm()"
+  >
+    <div class="form-group flex items-center gap-5">
+      <label for="limit">Number of Questions </label>
+      <mat-slider class="flex-grow" min="5" max="20" step="1" value="5" discrete>
+        <input formControlName="limit" matSliderThumb />
+      </mat-slider>
+    </div>
+  
+    <div class="flex gap-5">
+      <mat-form-field>
+        <mat-label>Difficulty</mat-label>
+        <mat-select formControlName="difficulty" multiple>
+          <mat-option *ngFor="let option of difficulty" [value]="option">
+            {{ option | titlecase }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Trivia Categories</mat-label>
+        <mat-select formControlName="categories" multiple>
+          <mat-option
+            *ngFor="let category of categories | async | keyvalue"
+            [value]="category.value[0]"
+          >
+            {{ category.key }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+  
+    <mat-form-field>
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="types" multiple>
+        <mat-option
+          *ngFor="let option of types | keyvalue"
+          [value]="option.value"
+        >
+          {{ option.key | titlecase }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+  
+    <button
+      class="w-full mt-5 text-white hover:bg-blue-500 px-5 py-2 rounded shadow-md bg-blue-300"
+      type="submit"
     >
-    <input
-      type="range"
-      min="5"
-      max="20"
-      id="limit"
-      name="limit"
-      defaultValue="5"
-      [(ngModel)]="triviaOptions.limit"
-    />
-  </div>
-
-  <div class="form-group flex justify-between">
-    <label for="difficulty">Difficulty</label>
-    <select
-      class="form-control"
-      name="difficulty"
-      [(ngModel)]="triviaOptions.difficulty"
-      required
-    >
-      <option *ngFor="let option of difficulty" [value]="option">
-        {{ option | titlecase }}
-      </option>
-    </select>
-  </div>
-
-  <div class="form-group flex justify-between">
-    <label for="categories">Trivia Categories</label>
-    <select
-      class="form-control"
-      name="categories"
-      [(ngModel)]="triviaOptions.categories"
-      required
-    >
-      <option
-        *ngFor="let category of categories | async | keyvalue"
-        [value]="category.value[0]"
-      >
-        {{ category.key }}
-      </option>
-    </select>
-  </div>
-</form>
-
-<button
-  class="w-full mt-5 text-gray-800 hover:bg-blue-500 px-5 py-2 rounded shadow-md bg-blue-300"
-  (click)="submitForm(triviaForm)"
->
-  Start Quiz
-</button>
+      Start Quiz
+    </button>
+  </form>
+</div>

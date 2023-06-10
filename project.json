@@ -24,6 +24,7 @@
           "./src/assets"
         ],
         "styles": [
+          "@angular/material/prebuilt-themes/indigo-pink.css",
           "./src/styles.scss"
         ],
         "scripts": []
@@ -73,7 +74,7 @@
         },
         "development": {
           "browserTarget": "angular-quiz:build:development",
-          "proxyConfig": "src/app/proxy-prod.conf.json"
+          "proxyConfig": "src/app/proxy.conf.json"
         }
       },
       "defaultConfiguration": "development"

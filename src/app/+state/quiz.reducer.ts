@@ -2,13 +2,13 @@ import {
   Question,
   TriviaCategories,
   TriviaOptions,
-} from '@angular-quiz/api-interfaces';
-import { createEntityAdapter } from '@ngrx/entity';
-import { EntityAdapter, EntityState } from '@ngrx/entity/src';
-import { createReducer, on } from '@ngrx/store';
-import * as QuizActions from './quiz.actions';
+} from "@angular-quiz/api-interfaces";
+import { createEntityAdapter } from "@ngrx/entity";
+import { EntityAdapter, EntityState } from "@ngrx/entity/src";
+import { createReducer, on } from "@ngrx/store";
+import * as QuizActions from "./quiz.actions";
 
-export const quizFeatureKey = 'quiz';
+export const quizFeatureKey = "quiz";
 
 export interface State extends EntityState<Question> {
   selectedId?: string | number; // which Quiz record has been selected
@@ -38,7 +38,7 @@ export const reducer = createReducer(
   on(QuizActions.quizActions.loadQuiz, (state, { options }) => ({
     ...state,
     triviaOptions: options,
-    loaded: false
+    loaded: false,
   })),
   on(QuizActions.quizApiActions.loadQuizSuccess, (state, { data }) =>
     quizAdapter.setAll(data, {
@@ -64,7 +64,9 @@ export const reducer = createReducer(
         {
           ...state,
           score:
-            state.entities[questionId]?.correctAnswer === response
+            (typeof state.entities[questionId]?.correctAnswer === "string"
+              ? state.entities[questionId]?.correctAnswer
+              : state.entities[questionId]?.correctAnswer[0]) === response
               ? state.score + 1
               : state.score,
         }

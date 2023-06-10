@@ -1,12 +1,16 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { ImageOption } from "@angular-quiz/api-interfaces";
+import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({
-  name: 'shuffle',
+  name: "shuffle",
 })
 export class ShufflePipe implements PipeTransform {
   storeShuffle!: string[];
 
-  transform(input: string[], response: string | undefined): string[] {
+  transform(
+    input: string[],
+    response: string | undefined | ImageOption
+  ): string[] {
     if (!Array.isArray(input)) {
       return input;
     }

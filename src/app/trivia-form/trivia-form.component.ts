@@ -1,22 +1,34 @@
-import { TriviaCategories } from '@angular-quiz/api-interfaces';
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { selectTriviaCategories } from '../+state/quiz.selectors';
-import * as QuizActions from '../../app/+state/quiz.actions';
+import { TriviaCategories, TriviaOptions } from "@angular-quiz/api-interfaces";
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs";
+import { selectTriviaCategories } from "../+state/quiz.selectors";
+import * as QuizActions from "../../app/+state/quiz.actions";
+import { FormBuilder } from "@angular/forms";
 
 @Component({
-  selector: 'angular-quiz-trivia-form',
-  templateUrl: './trivia-form.component.html',
-  styleUrls: ['./trivia-form.component.scss'],
+  selector: "angular-quiz-trivia-form",
+  templateUrl: "./trivia-form.component.html",
+  styleUrls: ["./trivia-form.component.scss"],
 })
 export class TriviaFormComponent implements OnInit {
-  difficulty = ['easy', 'medium', 'hard'];
-  triviaOptions = { limit: 5, categories: 'arts_and_literature', difficulty: 'easy' };
+  difficulty = ["easy", "medium", "hard"];
+  types = { "Text Choice": "text_choice", "Image Choice": "image_choice" };
   categories!: Observable<TriviaCategories>;
 
-  constructor(private readonly store: Store, private router: Router) {}
+  constructor(
+    private readonly store: Store,
+    private router: Router,
+    private fb: FormBuilder
+  ) {}
+
+  triviaForm = this.fb.nonNullable.group({
+    limit: [5],
+    categories: [[""]],
+    difficulty: [[""]],
+    types: [[""]],
+  });
 
   ngOnInit(): void {
     this.store.dispatch(QuizActions.quizActions.loadCategories());
@@ -24,11 +36,13 @@ export class TriviaFormComponent implements OnInit {
     this.categories = this.store.select(selectTriviaCategories);
   }
 
-  submitForm(form: any) {
+  submitForm() {
     this.store.dispatch(
-      QuizActions.quizActions.loadQuiz({ options: this.triviaOptions })
+      QuizActions.quizActions.loadQuiz({
+        options: this.triviaForm.value as TriviaOptions,
+      })
     );
 
-    this.router.navigate(['quiz']);
+    this.router.navigate(["quiz"]);
   }
 }

@@ -1,4 +1,4 @@
-import { Question, TriviaCategories, TriviaOptions } from '@angular-quiz/api-interfaces';
+import { ImageOption, Question, TriviaCategories, TriviaOptions } from '@angular-quiz/api-interfaces';
 import {
   createActionGroup,
   emptyProps,
@@ -11,7 +11,7 @@ export const quizActions = createActionGroup({
     'Load Categories': emptyProps(),
     'Load Quiz': props<{ options: TriviaOptions }>(),
     'Next Questiom': emptyProps(),
-    'Answer Question': props<{ questionId: string; response: string }>(),
+    'Answer Question': props<{ questionId: string; response: string | ImageOption }>(),
   },
 });
 

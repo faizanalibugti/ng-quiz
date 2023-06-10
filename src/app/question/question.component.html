@@ -1,18 +1,22 @@
-<div *ngIf="quiz | async as quiz" class="w-fit">
-    <ng-container *ngIf="quiz.loaded; else loading">
-      <h1 class="font-bold text-center">
-        Question {{ quiz.currentIndex }}/{{ quiz.totalQuestions }}
-      </h1>
-      <h2 class="font-semibold text-center">Score: {{ quiz.score }}</h2>
-  
-      <h1 class="text-xl">{{ quiz.content.question }}</h1>
-      <div
-        *ngFor="
-          let option of quiz.content.answers | shuffle : quiz.content.response
-        "
+<div *ngIf="quiz | async as quiz" class="w-full flex-col justify-center items-center">
+  <ng-container *ngIf="quiz.loaded; else loading">
+    <h1 class="font-bold text-center">
+      Question {{ quiz.currentIndex }}/{{ quiz.totalQuestions }}
+    </h1>
+    <h2 class="font-semibold text-center">Score: {{ quiz.score }}</h2>
+
+    <h1 class="text-xl">{{ quiz.content.question }}</h1>
+    <div
+      class="flex justify-center items-center"
+      *ngFor="
+        let option of quiz.content.answers | shuffle : quiz.content.response
+      "
+    >
+      <ng-container
+        *ngIf="quiz.content.type === 'text_choice'; else imageOption"
       >
         <button
-          class="text-white font-semibold rounded bg-blue-400 px-5 py-3 w-full mt-5 enabled:hover:bg-blue-600 enabled:cursor-pointer"
+          class="text-white font-medium rounded bg-blue-400 px-5 py-3 w-full mt-5 enabled:hover:bg-blue-600 enabled:cursor-pointer"
           [ngClass]="{
             'bg-green-500':
               quiz.content.response && option === quiz.content.correctAnswer,
@@ -24,36 +28,56 @@
           }"
           [disabled]="quiz.content.response"
           [value]="option"
-          (click)="recordResponse($event, quiz.id)"
+          (click)="recordResponse(option, quiz.id)"
         >
           {{ option }}
         </button>
-      </div>
-  
-      <ng-container *ngIf="quiz.currentIndex < quiz.totalQuestions; else finish">
-        <div class="flex justify-center items-center mt-5">
-          <button
-            class="rounded shadow-md px-4 py-2 bg-blue-600 text-white place-content-center"
-            *ngIf="quiz.content.response"
-            (click)="nextQuestion()"
-          >
-            Next
-          </button>
-        </div>
       </ng-container>
-  
-      <ng-template #finish>
-        <div class="flex justify-center items-center mt-5">
-          <button
-            class="rounded shadow-md px-4 py-2 bg-blue-600 text-white place-content-center"
-            *ngIf="quiz.content.response"
-            (click)="finishQuiz()"
-          >
-            Finish
-          </button>
-        </div>
+
+      <ng-template #imageOption>
+        <button
+          class="text-white font-semibold rounded bg-blue-400 px-5 py-3 h-full mt-5 enabled:hover:bg-blue-600 enabled:cursor-pointer"
+          [ngClass]="{
+            'bg-green-500':
+              quiz.content.response && option === quiz.content.correctAnswer,
+            'bg-red-700':
+              quiz.content.response &&
+              quiz.content.response !== quiz.content.correctAnswer
+                ? option === quiz.content.response
+                : null
+          }"
+          [disabled]="quiz.content.response"
+          [value]="option"
+          (click)="recordResponse(option, quiz.id)"
+        >
+          <img [src]="$any(option).url" alt="" />
+        </button>
       </ng-template>
+    </div>
+
+    <ng-container *ngIf="quiz.currentIndex < quiz.totalQuestions; else finish">
+      <div class="flex justify-center items-center mt-5">
+        <button
+          class="rounded shadow-md px-4 py-2 bg-blue-600 text-white place-content-center"
+          *ngIf="quiz.content.response"
+          (click)="nextQuestion()"
+        >
+          Next
+        </button>
+      </div>
     </ng-container>
-    <ng-template #loading>Loading...</ng-template>
-  </div>
-  
+
+    <ng-template #finish>
+      <div class="flex justify-center items-center mt-5">
+        <button
+          class="rounded shadow-md px-4 py-2 bg-blue-600 text-white place-content-center"
+          *ngIf="quiz.content.response"
+          (click)="finishQuiz()"
+        >
+          Finish
+        </button>
+      </div>
+    </ng-template>
+  </ng-container>
+  <ng-template #loading>Loading...</ng-template>
+</div>

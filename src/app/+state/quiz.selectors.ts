@@ -1,14 +1,21 @@
-import { Question, TriviaCategories, TriviaOptions } from '@angular-quiz/api-interfaces';
-import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { quizAdapter, quizFeatureKey, State } from './quiz.reducer';
+import {
+  ImageOption,
+  Question,
+  QuestionType,
+  TriviaCategories,
+  TriviaOptions,
+} from "@angular-quiz/api-interfaces";
+import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { quizAdapter, quizFeatureKey, State } from "./quiz.reducer";
 
 export interface QuizViewState {
   id: string;
   content: {
     question: string;
     answers: string[];
-    response: string | undefined;
+    response: string | ImageOption | undefined;
     correctAnswer: string;
+    type: QuestionType;
   };
   score: number;
   loaded: boolean;
@@ -79,10 +86,21 @@ export const quizViewState = createSelector(
       id: question?.id,
       content: question
         ? {
-            question: question.question,
-            answers: [...question.incorrectAnswers, question.correctAnswer],
+            question: question.question.text,
+            answers: [
+              ...(typeof question.incorrectAnswers[0] === "string"
+                ? question.incorrectAnswers
+                : mapImages(question.incorrectAnswers as any)),
+              typeof question.correctAnswer === "string"
+                ? question.correctAnswer
+                : question.correctAnswer[0],
+            ],
             response: question.response,
-            correctAnswer: question.correctAnswer,
+            correctAnswer:
+              typeof question.correctAnswer === "string"
+                ? question.correctAnswer
+                : question.correctAnswer[0],
+            type: question.type,
           }
         : {},
       currentIndex: currentIndex + 1,
@@ -92,14 +110,8 @@ export const quizViewState = createSelector(
     } as QuizViewState)
 );
 
-const shuffleAnswers = (() => {
-  let closureCorrectAnswer: string;
-  return (incorrectAnswers: string[], correctAnswer: string) => {
-    if (correctAnswer !== closureCorrectAnswer)
-      closureCorrectAnswer = correctAnswer;
-    return [...incorrectAnswers, correctAnswer]
-      .map((value) => ({ value, sort: Math.random() }))
-      .sort((a, b) => a.sort - b.sort)
-      .map(({ value }) => value);
-  };
-})();
+function mapImages(incorrectAnswers: any) {
+  return [...incorrectAnswers].map((option) => {
+    return option[0];
+  });
+}
