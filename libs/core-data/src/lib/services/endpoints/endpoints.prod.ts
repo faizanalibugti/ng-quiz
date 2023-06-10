@@ -1,3 +1,3 @@
 export const endpoints = {
-  apiEndpoint: 'https://the-trivia-api.com/api/v2',
+  apiEndpoint: 'https://the-trivia-api.com/v2',
 };
