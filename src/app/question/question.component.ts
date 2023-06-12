@@ -21,7 +21,7 @@ export class QuestionComponent implements OnInit {
   }
 
   nextQuestion() {
-    this.store.dispatch(QuizActions.quizActions.nextQuestiom());
+    this.store.dispatch(QuizActions.quizActions.nextQuestion());
   }
 
   recordResponse(option: string | ImageOption, questionId: string) {
@@ -33,7 +33,7 @@ export class QuestionComponent implements OnInit {
     );
   }
 
-  finishQuiz() {
-    this.router.navigate([""]);
+  skipQuestion() {
+    this.store.dispatch(QuizActions.quizActions.skipQuestion());
   }
 }

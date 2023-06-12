@@ -7,14 +7,14 @@
     <div class="form-group flex items-center gap-5">
       <label for="limit">Number of Questions </label>
       <mat-slider class="flex-grow" min="5" max="20" step="1" value="5" discrete>
-        <input formControlName="limit" matSliderThumb />
+        <input id="limit" formControlName="limit" matSliderThumb />
       </mat-slider>
     </div>
   
     <div class="flex gap-5">
       <mat-form-field>
         <mat-label>Difficulty</mat-label>
-        <mat-select formControlName="difficulty" multiple>
+        <mat-select id="difficulty" formControlName="difficulty" multiple>
           <mat-option *ngFor="let option of difficulty" [value]="option">
             {{ option | titlecase }}</mat-option
           >
@@ -23,7 +23,7 @@
   
       <mat-form-field>
         <mat-label>Trivia Categories</mat-label>
-        <mat-select formControlName="categories" multiple>
+        <mat-select id="categories" formControlName="categories" multiple>
           <mat-option
             *ngFor="let category of categories | async | keyvalue"
             [value]="category.value[0]"
@@ -36,7 +36,7 @@
   
     <mat-form-field>
       <mat-label>Type</mat-label>
-      <mat-select formControlName="types" multiple>
+      <mat-select id="types" formControlName="types" multiple>
         <mat-option
           *ngFor="let option of types | keyvalue"
           [value]="option.value"

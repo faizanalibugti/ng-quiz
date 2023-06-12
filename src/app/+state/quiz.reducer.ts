@@ -72,10 +72,15 @@ export const reducer = createReducer(
         }
       )
   ),
-  on(QuizActions.quizActions.nextQuestiom, (state) => ({
-    ...state,
-    currentIndex: state.ids[state.currentIndex + 1]
-      ? state.currentIndex + 1
-      : state.currentIndex,
-  }))
+  on(
+    QuizActions.quizActions.nextQuestion,
+    QuizActions.quizActions.skipQuestion,
+    (state) => ({
+      ...state,
+      // currentIndex: state.ids[state.currentIndex + 1]
+      //   ? state.currentIndex + 1
+      //   : state.currentIndex,
+      currentIndex: state.currentIndex + 1
+    })
+  )
 );

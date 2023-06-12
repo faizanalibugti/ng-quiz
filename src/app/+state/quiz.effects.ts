@@ -1,14 +1,23 @@
-import { TriviaCategories } from '@angular-quiz/api-interfaces';
-import { QuizService } from '@angular-quiz/core-data';
-import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
-import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
-import * as QuizActions from './quiz.actions';
+import { TriviaCategories } from "@angular-quiz/api-interfaces";
+import { QuizService } from "@angular-quiz/core-data";
+import { Injectable } from "@angular/core";
+import { Actions, concatLatestFrom, createEffect, ofType } from "@ngrx/effects";
+import { Store } from "@ngrx/store";
+import { of } from "rxjs";
+import { catchError, concatMap, filter, map, switchMap } from "rxjs/operators";
+import * as QuizActions from "./quiz.actions";
+import * as QuizSelectors from "./quiz.selectors";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class QuizEffects {
+  constructor(
+    private actions$: Actions,
+    private readonly store: Store,
+    private quizService: QuizService,
+    private router: Router
+  ) {}
+
   loadTriviaCategories$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(QuizActions.quizActions.loadCategories),
@@ -40,11 +49,25 @@ export class QuizEffects {
     );
   });
 
-  constructor(
-    private actions$: Actions,
-    private quizService: QuizService,
-    private readonly store: Store
-  ) {}
+  endQuiz$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(
+          QuizActions.quizActions.nextQuestion,
+          QuizActions.quizActions.skipQuestion
+        ),
+        concatLatestFrom(() => [
+          this.store.select(QuizSelectors.selectNumberOfQuestions),
+          this.store.select(QuizSelectors.selectCurrentIndex),
+        ]),
+        filter(
+          ([_, totalQuestions, currentIndex]) =>
+            currentIndex + 1 > totalQuestions
+        ),
+        map(() => this.router.navigate([""]))
+      ),
+    { dispatch: false }
+  );
 }
 
 function formatTriviaCategories(
@@ -53,7 +76,7 @@ function formatTriviaCategories(
   const triviaCategories: TriviaCategories = {};
   for (const key in categrories) {
     categrories[key].map((tag, index, tagArr) => {
-      if (tagArr.length > 1 && tag.includes('_')) {
+      if (tagArr.length > 1 && tag.includes("_")) {
         triviaCategories[key] = [tag];
       } else {
         triviaCategories[key] = [tag];

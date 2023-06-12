@@ -10,7 +10,8 @@ export const quizActions = createActionGroup({
   events: {
     'Load Categories': emptyProps(),
     'Load Quiz': props<{ options: TriviaOptions }>(),
-    'Next Questiom': emptyProps(),
+    'Next Question': emptyProps(),
+    'Skip Question': emptyProps(),
     'Answer Question': props<{ questionId: string; response: string | ImageOption }>(),
   },
 });
