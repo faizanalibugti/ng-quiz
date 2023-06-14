@@ -14,7 +14,7 @@
     <div class="flex gap-5">
       <mat-form-field>
         <mat-label>Difficulty</mat-label>
-        <mat-select id="difficulty" formControlName="difficulty" multiple>
+        <mat-select id="difficulty" formControlName="difficulties" multiple>
           <mat-option *ngFor="let option of difficulty" [value]="option">
             {{ option | titlecase }}</mat-option
           >

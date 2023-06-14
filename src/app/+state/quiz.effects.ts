@@ -74,14 +74,13 @@ function formatTriviaCategories(
   categrories: TriviaCategories
 ): TriviaCategories {
   const triviaCategories: TriviaCategories = {};
+  
   for (const key in categrories) {
-    categrories[key].map((tag, index, tagArr) => {
-      if (tagArr.length > 1 && tag.includes("_")) {
-        triviaCategories[key] = [tag];
-      } else {
-        triviaCategories[key] = [tag];
-      }
-    });
+    let categoryValue = categrories[key].filter((value, index, array) =>
+      array.length === 1 ? value : value.includes("_")
+    );
+
+    triviaCategories[key] = categoryValue;
   }
 
   return triviaCategories;

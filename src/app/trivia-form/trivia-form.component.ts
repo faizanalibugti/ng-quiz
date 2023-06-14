@@ -26,7 +26,7 @@ export class TriviaFormComponent implements OnInit {
   triviaForm = this.fb.nonNullable.group({
     limit: [5],
     categories: [[""]],
-    difficulty: [[""]],
+    difficulties: [[""]],
     types: [[""]],
   });
 

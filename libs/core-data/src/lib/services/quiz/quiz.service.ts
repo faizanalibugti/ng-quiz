@@ -56,9 +56,9 @@ export class QuizService {
           } else {
             url += `limit=${data["limit"]}`;
           }
-        } else if (key === "difficulty" && data[key].toString()) {
+        } else if (key === "difficulties" && data[key].toString()) {
           if (data[key] satisfies QuestionDifficulty) {
-            url += `difficulty=${data["difficulty"].toString()}`;
+            url += `difficulties=${data["difficulties"].toString()}`;
           } else {
             throw Error("difficulty must be a either easy, medium or hard");
           }
