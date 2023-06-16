@@ -133,7 +133,7 @@ export const displayTimer = createSelector(
     const totalTime = totalQuestions * 10;
 
     const status =
-      time > totalTime / 2
+      time >= totalTime / 2
         ? "start"
         : time < totalTime / 2 && time > 15
         ? "half"
