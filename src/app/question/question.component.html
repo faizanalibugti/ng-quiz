@@ -3,15 +3,35 @@
   class="w-full flex flex-col gap-4 justify-center items-center"
 >
   <ng-container *ngIf="quiz.loaded; else loading">
-    <h1 class="font-bold text-center">
-      Question {{ quiz.currentIndex }}/{{ quiz.totalQuestions }}
-    </h1>
+    <div class="w-1/4 flex justify-between">
+      <h1 class="font-bold text-center">
+        Question {{ quiz.currentIndex }}/{{ quiz.totalQuestions }}
+      </h1>
+      <h1>
+        <span
+          [ngStyle]="{
+            color:
+              quiz.timer.status === 'end'
+                ? 'red'
+                : quiz.timer.status === 'half'
+                ? 'rgb(234 179 8)'
+                : 'unset'
+          }"
+          class="fas fa-hourglass{{ '-' + quiz.timer.status }}"
+        >
+          {{ quiz.timer.displayTime }}
+        </span>
+      </h1>
+    </div>
     <h2 class="font-semibold text-center">Score: {{ quiz.score }}</h2>
 
     <h1 class="text-xl">{{ quiz.content.question }}</h1>
     <div
       class="grid grid-cols-2 gap-2 w-9/12"
-      [ngClass]="{ 'w-9/12': quiz.content.type === 'text_choice', 'w-1/2': quiz.content.type === 'image_choice' }"
+      [ngClass]="{
+        'w-9/12': quiz.content.type === 'text_choice',
+        'w-1/2': quiz.content.type === 'image_choice'
+      }"
     >
       <button
         class="text-white font-medium rounded bg-blue-400 px-5 py-3 w-full enabled:hover:bg-blue-600 enabled:cursor-pointer"

@@ -17,9 +17,10 @@ import { QuestionComponent } from './question/question.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TriviaFormComponent } from './trivia-form/trivia-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ResultsComponent } from './results/results.component';
 
 @NgModule({
-  declarations: [AppComponent, QuestionComponent, TriviaFormComponent],
+  declarations: [AppComponent, QuestionComponent, TriviaFormComponent, ResultsComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

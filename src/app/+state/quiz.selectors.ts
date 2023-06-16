@@ -21,6 +21,10 @@ export interface QuizViewState {
   loaded: boolean;
   currentIndex: number;
   totalQuestions: number;
+  timer: {
+    displayTime: string;
+    status: string;
+  };
 }
 
 export const selectQuizState = createFeatureSelector<State>(quizFeatureKey);
@@ -62,11 +66,81 @@ export const selectScore = createSelector(
   (state: State) => state.score as number
 );
 
+export const displayResult = createSelector(
+  selectScore,
+  selectNumberOfQuestions,
+  (score: number, totalQuestions: number) => {
+    const percentage = (score / totalQuestions) * 100;
+    const status =
+      percentage >= 90
+        ? "Excellent"
+        : score >= 80 && score < 90
+        ? "Good"
+        : score >= 60 && score < 80
+        ? "Average"
+        : "Fail";
+
+    return { score, totalQuestions, status }
+  }
+);
+
 export const selectCurrentQuestion = createSelector(
   selectCurrentIndex,
   selectQuizQuestions,
   (currentIndex: number, question: Question[]) =>
     question[currentIndex] as Question
+);
+
+export const displayQuestion = createSelector(
+  selectCurrentQuestion,
+  (question: Question) =>
+    question
+      ? {
+          question: question.question.text,
+          answers: [
+            ...(typeof question.incorrectAnswers[0] === "string"
+              ? question.incorrectAnswers
+              : mapImages(question.incorrectAnswers as any)),
+            typeof question.correctAnswer === "string"
+              ? question.correctAnswer
+              : question.correctAnswer[0],
+          ],
+          response: question.response,
+          correctAnswer:
+            typeof question.correctAnswer === "string"
+              ? question.correctAnswer
+              : question.correctAnswer[0],
+          type: question.type,
+        }
+      : {}
+);
+
+export const selectTimer = createSelector(
+  selectQuizState,
+  (state: State) => state.timer || 0
+);
+
+export const displayTimer = createSelector(
+  selectTimer,
+  selectNumberOfQuestions,
+  (time: number, totalQuestions: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    const displayTime = `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
+
+    const totalTime = totalQuestions * 10;
+
+    const status =
+      time > totalTime / 2
+        ? "start"
+        : time < totalTime / 2 && time > 15
+        ? "half"
+        : "end";
+
+    return { displayTime, status };
+  }
 );
 
 export const quizViewState = createSelector(
@@ -75,37 +149,24 @@ export const quizViewState = createSelector(
   selectScore,
   selectQuizLoaded,
   selectCurrentQuestion,
+  displayQuestion,
+  displayTimer,
   (
     currentIndex: number,
     totalQuestions: number,
     score: number,
     loaded: boolean,
-    question: Question
+    currentQuestion: Question,
+    question: any,
+    timer: any
   ) =>
     ({
-      id: question?.id,
-      content: question
-        ? {
-            question: question.question.text,
-            answers: [
-              ...(typeof question.incorrectAnswers[0] === "string"
-                ? question.incorrectAnswers
-                : mapImages(question.incorrectAnswers as any)),
-              typeof question.correctAnswer === "string"
-                ? question.correctAnswer
-                : question.correctAnswer[0],
-            ],
-            response: question.response,
-            correctAnswer:
-              typeof question.correctAnswer === "string"
-                ? question.correctAnswer
-                : question.correctAnswer[0],
-            type: question.type,
-          }
-        : {},
+      id: currentQuestion?.id,
+      content: currentQuestion ? question : {},
       currentIndex: currentIndex + 1,
       score,
       totalQuestions,
+      timer,
       loaded,
     } as QuizViewState)
 );

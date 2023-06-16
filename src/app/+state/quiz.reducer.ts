@@ -18,6 +18,7 @@ export interface State extends EntityState<Question> {
   score: number;
   categories?: TriviaCategories;
   triviaOptions?: TriviaOptions;
+  timer?: number;
 }
 
 export const quizAdapter: EntityAdapter<Question> =
@@ -53,6 +54,10 @@ export const reducer = createReducer(
     error,
     loaded: true,
   })),
+  on(QuizActions.quizActions.updateTimer, (state, { remainingTime }) => ({
+    ...state,
+    timer: remainingTime,
+  })),
   on(
     QuizActions.quizActions.answerQuestion,
     (state, { questionId, response }) =>
@@ -80,7 +85,7 @@ export const reducer = createReducer(
       // currentIndex: state.ids[state.currentIndex + 1]
       //   ? state.currentIndex + 1
       //   : state.currentIndex,
-      currentIndex: state.currentIndex + 1
+      currentIndex: state.currentIndex + 1,
     })
   )
 );

@@ -1,0 +1,17 @@
+<ng-container *ngIf="result$ | async as result">
+  <div class="flex flex-col place-items-center gap-4">
+    <h1>You scored {{ result.score }} out of {{ result.totalQuestions }}</h1>
+
+    <p>
+      Your percentage was {{ (result.score / result.totalQuestions) * 100 }}%,
+      hence your performance was {{ result.status | uppercase }}
+    </p>
+
+    <button
+      class="rounded shadow-md px-4 py-2 bg-blue-600 text-white place-content-center disabled:cursor-not-allowed disabled:bg-blue-500"
+      routerLink="/home"
+    >
+      Restart
+    </button>
+  </div>
+</ng-container>
