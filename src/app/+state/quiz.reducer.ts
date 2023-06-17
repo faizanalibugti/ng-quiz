@@ -1,7 +1,7 @@
 import {
   Question,
   TriviaCategories,
-  TriviaOptions,
+  TriviaQueryParams,
 } from "@angular-quiz/api-interfaces";
 import { createEntityAdapter } from "@ngrx/entity";
 import { EntityAdapter, EntityState } from "@ngrx/entity/src";
@@ -17,7 +17,7 @@ export interface State extends EntityState<Question> {
   currentIndex: number;
   score: number;
   categories?: TriviaCategories;
-  triviaOptions?: TriviaOptions;
+  triviaOptions?: TriviaQueryParams;
   timer?: number;
 }
 
@@ -49,11 +49,14 @@ export const reducer = createReducer(
       score: 0,
     })
   ),
-  on(QuizActions.quizApiActions.loadQuizFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loaded: true,
-  })),
+  on(
+    QuizActions.quizApiActions.loadQuizFailure,
+    QuizActions.quizApiActions.loadCategoriesFailure,
+    (state, { error }) => ({
+      ...state,
+      error,
+    })
+  ),
   on(QuizActions.quizActions.updateTimer, (state, { remainingTime }) => ({
     ...state,
     timer: remainingTime,

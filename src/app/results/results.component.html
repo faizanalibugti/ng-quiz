@@ -3,7 +3,7 @@
     <h1>You scored {{ result.score }} out of {{ result.totalQuestions }}</h1>
 
     <p>
-      Your percentage was {{ (result.score / result.totalQuestions) * 100 }}%,
+      Your percentage was {{ ((result.score / result.totalQuestions) * 100).toFixed(2) }}%,
       hence your performance was {{ result.status | uppercase }}
     </p>
 

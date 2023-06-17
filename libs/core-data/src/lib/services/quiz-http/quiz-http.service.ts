@@ -1,17 +1,13 @@
-import { Injectable } from "@angular/core";
+import { TriviaCategories, Question, QuestionDifficulty } from "@angular-quiz/api-interfaces";
 import { HttpClient } from "@angular/common/http";
-import { endpoints } from "../endpoints/endpoints";
-import {
-  Question,
-  QuestionDifficulty,
-  TriviaCategories,
-} from "@angular-quiz/api-interfaces";
+import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { endpoints } from "../endpoints/endpoints";
 
 @Injectable({
   providedIn: "root",
 })
-export class QuizService {
+export class QuizHttpService {
   model = "questions";
   API_ENDPOINT = endpoints.apiEndpoint;
 

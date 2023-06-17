@@ -1,4 +1,4 @@
-import { TriviaCategories, TriviaOptions } from "@angular-quiz/api-interfaces";
+import { TriviaCategories, TriviaQueryParams } from "@angular-quiz/api-interfaces";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
@@ -15,7 +15,7 @@ import { FormBuilder } from "@angular/forms";
 export class TriviaFormComponent implements OnInit {
   difficulty = ["easy", "medium", "hard"];
   types = { "Text Choice": "text_choice", "Image Choice": "image_choice" };
-  categories!: Observable<TriviaCategories>;
+  categories$!: Observable<TriviaCategories>;
 
   constructor(
     private readonly store: Store,
@@ -33,13 +33,13 @@ export class TriviaFormComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(QuizActions.quizActions.loadCategories());
 
-    this.categories = this.store.select(selectTriviaCategories);
+    this.categories$ = this.store.select(selectTriviaCategories);
   }
 
   submitForm() {
     this.store.dispatch(
       QuizActions.quizActions.loadQuiz({
-        options: this.triviaForm.value as TriviaOptions,
+        options: this.triviaForm.value as TriviaQueryParams,
       })
     );
 

@@ -1,17 +1,18 @@
-import { Component, OnInit } from "@angular/core";
-import { Store } from "@ngrx/store";
-import { Observable } from "rxjs";
+import { ImageOption } from '@angular-quiz/api-interfaces';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { QuizViewState } from '../+state/views/models/quiz-view.model';
+import { quizViewState } from '../+state/views/quiz-views.selectors';
 import * as QuizActions from "../../app/+state/quiz.actions";
-import { QuizViewState, quizViewState } from "../+state/quiz.selectors";
-import { Router } from "@angular/router";
-import { ImageOption } from "@angular-quiz/api-interfaces";
 
 @Component({
-  selector: "angular-quiz-question",
-  templateUrl: "./question.component.html",
-  styleUrls: ["./question.component.scss"],
+  selector: 'angular-quiz-quiz',
+  templateUrl: './quiz.component.html',
+  styleUrls: ['./quiz.component.scss']
 })
-export class QuestionComponent implements OnInit {
+export class QuizComponent {
   quiz!: Observable<QuizViewState>;
 
   constructor(private readonly store: Store, private router: Router) {}

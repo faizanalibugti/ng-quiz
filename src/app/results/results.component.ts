@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { displayResult } from "../+state/quiz.selectors";
+import { resultViewState } from "../+state/views/quiz-views.selectors";
+import { ResultViewState } from "../+state/views/models/result-view.model";
 
 @Component({
   selector: "angular-quiz-results",
@@ -9,11 +10,11 @@ import { displayResult } from "../+state/quiz.selectors";
   styleUrls: ["./results.component.scss"],
 })
 export class ResultsComponent implements OnInit {
-  result$!: Observable<any>;
+  result$!: Observable<ResultViewState>;
 
   constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.result$ = this.store.pipe(select(displayResult));
+    this.result$ = this.store.pipe(select(resultViewState));
   }
 }

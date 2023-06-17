@@ -13,14 +13,14 @@ import * as fromQuiz from './+state/quiz.reducer';
 import { QuizEffects } from './+state/quiz.effects';
 import { CoreDataModule } from '@angular-quiz/core-data';
 import { MaterialModule } from '@angular-quiz/material';
-import { QuestionComponent } from './question/question.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TriviaFormComponent } from './trivia-form/trivia-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ResultsComponent } from './results/results.component';
+import { QuizComponent } from './quiz/quiz.component';
 
 @NgModule({
-  declarations: [AppComponent, QuestionComponent, TriviaFormComponent, ResultsComponent],
+  declarations: [AppComponent, TriviaFormComponent, ResultsComponent, QuizComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

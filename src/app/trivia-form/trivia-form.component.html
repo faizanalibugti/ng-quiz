@@ -25,7 +25,7 @@
         <mat-label>Trivia Categories</mat-label>
         <mat-select id="categories" formControlName="categories" multiple>
           <mat-option
-            *ngFor="let category of categories | async | keyvalue"
+            *ngFor="let category of categories$ | async | keyvalue"
             [value]="category.value[0]"
           >
             {{ category.key }}</mat-option

@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ShufflePipe } from './pipes/shuffle/shuffle.pipe';
+import { MaterialModule } from '@angular-quiz/material';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, MaterialModule],
   declarations: [
     ShufflePipe
   ],

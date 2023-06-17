@@ -2,7 +2,7 @@ import {
   ImageOption,
   Question,
   TriviaCategories,
-  TriviaOptions,
+  TriviaQueryParams,
 } from "@angular-quiz/api-interfaces";
 import { createActionGroup, emptyProps, props } from "@ngrx/store";
 
@@ -10,7 +10,7 @@ export const quizActions = createActionGroup({
   source: "Quiz",
   events: {
     "Load Categories": emptyProps(),
-    "Load Quiz": props<{ options: TriviaOptions }>(),
+    "Load Quiz": props<{ options: TriviaQueryParams }>(),
     "Update Timer": props<{ remainingTime: number }>(),
     "Times Up": emptyProps(),
     "Next Question": emptyProps(),

@@ -32,7 +32,7 @@ export interface Question {
   category: string;
   id: string;
   correctAnswer: string | ImageOption[];
-  incorrectAnswers: string[] | ImageOption[];
+  incorrectAnswers: string[] | Array<ImageOption[]>;
   question: {
     text: string;
   };
@@ -42,15 +42,4 @@ export interface Question {
   regions: string[];
   isNiche: boolean;
   response?: string | ImageOption;
-}
-
-export interface TriviaCategories {
-  [key: string]: string[];
-}
-
-export interface TriviaOptions {
-  limit: number;
-  categories: string[];
-  difficulty: string[];
-  types: string[];
 }

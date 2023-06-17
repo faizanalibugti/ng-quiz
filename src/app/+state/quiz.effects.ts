@@ -1,9 +1,9 @@
-import { TriviaCategories } from "@angular-quiz/api-interfaces";
-import { QuizService } from "@angular-quiz/core-data";
+import { NotificationsService, QuizHttpService } from "@angular-quiz/core-data";
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import { Actions, concatLatestFrom, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { interval, of, timer } from "rxjs";
+import { interval, of } from "rxjs";
 import {
   catchError,
   concatMap,
@@ -12,17 +12,22 @@ import {
   scan,
   switchMap,
   takeUntil,
+  tap,
 } from "rxjs/operators";
 import * as QuizActions from "./quiz.actions";
 import * as QuizSelectors from "./quiz.selectors";
-import { Router } from "@angular/router";
+import * as QuizViewSelectors from "./views/quiz-views.selectors";
+import { formatTriviaCategories } from "./utils/quiz.utils";
+import { Title } from "@angular/platform-browser";
 
 @Injectable()
 export class QuizEffects {
   constructor(
     private actions$: Actions,
     private readonly store: Store,
-    private quizService: QuizService,
+    private quizService: QuizHttpService,
+    private notificationsService: NotificationsService,
+    private titleService: Title,
     private router: Router
   ) {}
 
@@ -62,9 +67,8 @@ export class QuizEffects {
       ofType(QuizActions.quizApiActions.loadQuizSuccess),
       concatLatestFrom(() => [
         this.store.select(QuizSelectors.selectNumberOfQuestions),
-        this.store.select(QuizSelectors.selectTimer),
       ]),
-      switchMap(([_, totalQuestions, timeLeft]) =>
+      switchMap(([_, totalQuestions]) =>
         interval(1000).pipe(
           scan((acc) => --acc, totalQuestions * 10),
           map((remainingTime) =>
@@ -81,6 +85,14 @@ export class QuizEffects {
   timerEnd$ = createEffect(() =>
     this.actions$.pipe(
       ofType(QuizActions.quizActions.updateTimer),
+      concatLatestFrom(() => [
+        this.store.select(QuizSelectors.selectTimer),
+        this.store.select(QuizViewSelectors.displayTimer),
+      ]),
+      map(([{ remainingTime }, {}, { displayTime }]) => {
+        this.titleService.setTitle(`Trivia Quiz - ${displayTime}`);
+        return { remainingTime };
+      }),
       filter(({ remainingTime }) => remainingTime === 0),
       map(() => QuizActions.quizActions.timesUp())
     )
@@ -106,20 +118,20 @@ export class QuizEffects {
       ),
     { dispatch: false }
   );
-}
 
-function formatTriviaCategories(
-  categrories: TriviaCategories
-): TriviaCategories {
-  const triviaCategories: TriviaCategories = {};
-
-  for (const key in categrories) {
-    let categoryValue = categrories[key].filter((value, index, array) =>
-      array.length === 1 ? value : value.includes("_")
-    );
-
-    triviaCategories[key] = categoryValue;
-  }
-
-  return triviaCategories;
+  loadQuizError$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(
+          QuizActions.quizApiActions.loadCategoriesFailure,
+          QuizActions.quizApiActions.loadQuizFailure
+        ),
+        tap(() => {
+          this.notificationsService.openSnackBar(
+            "Something went wrong. Please try again later"
+          );
+        })
+      ),
+    { dispatch: false }
+  );
 }

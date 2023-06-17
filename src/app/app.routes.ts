@@ -1,17 +1,19 @@
 import { Route } from "@angular/router";
-import { QuestionComponent } from "./question/question.component";
 import { TriviaFormComponent } from "./trivia-form/trivia-form.component";
 import { ResultsComponent } from "./results/results.component";
+import { QuizComponent } from "./quiz/quiz.component";
 
 export const appRoutes: Route[] = [
-  { path: "home", component: TriviaFormComponent },
+  { path: "home", component: TriviaFormComponent, title: "Trivia Quiz - Home" },
   {
     path: "quiz",
-    component: QuestionComponent,
+    component: QuizComponent,
+    title: 'Trivia Quiz'
   },
   {
-    path: 'result',
-    component: ResultsComponent
+    path: "result",
+    component: ResultsComponent,
+    title: 'Results'
   },
   {
     path: "",
