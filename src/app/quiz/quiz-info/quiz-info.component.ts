@@ -11,5 +11,5 @@ export class QuizInfoComponent {
   @Input() totalQuestions!: number;
   @Input() score!: number;
   
-  @Input() timer!: Timer;
+  @Input() timer!: Timer | null;
 }

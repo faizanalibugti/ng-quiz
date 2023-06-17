@@ -7,6 +7,7 @@ import {
   selectQuizLoaded,
   selectCurrentQuestion,
   selectTimer,
+  selectTimerActive,
 } from "../quiz.selectors";
 import { QuizViewState } from "./models/quiz-view.model";
 import { ResultStatus, ResultViewState } from "./models/result-view.model";
@@ -41,23 +42,32 @@ const displayQuestion = createSelector(
 export const displayTimer = createSelector(
   selectTimer,
   selectNumberOfQuestions,
-  (time: number, totalQuestions: number): Timer => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    const displayTime = `${minutes.toString().padStart(2, "0")}:${seconds
-      .toString()
-      .padStart(2, "0")}`;
+  selectTimerActive,
+  (
+    time: number | undefined,
+    totalQuestions: number,
+    isTimerActive: boolean
+  ): Timer | undefined => {
+    if (isTimerActive && time) {
+      const minutes = Math.floor(time / 60);
+      const seconds = time % 60;
+      const displayTime = `${minutes.toString().padStart(2, "0")}:${seconds
+        .toString()
+        .padStart(2, "0")}`;
 
-    const totalTime = totalQuestions * 10;
+      const totalTime = totalQuestions * 10;
 
-    const status =
-      time >= totalTime / 2
-        ? TimerStatus.START
-        : time < totalTime / 2 && time > 15
-        ? TimerStatus.HALF
-        : TimerStatus.END;
+      const status =
+        time >= totalTime / 2
+          ? TimerStatus.START
+          : time < totalTime / 2 && time > 15
+          ? TimerStatus.HALF
+          : TimerStatus.END;
 
-    return { displayTime, status };
+      return { displayTime, status };
+    } else {
+      return undefined;
+    }
   }
 );
 

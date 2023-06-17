@@ -1,11 +1,15 @@
 <div
-  class="grid grid-cols-2 gap-2"
-  [ngClass]="{ 'auto-rows-[200px]': questionType === 'image_choice' }"
+  [ngClass]="{
+    'grid grid-cols-2 gap-2 auto-rows-[200px]': questionType === 'image_choice',
+    'flex flex-col gap-3 w-[300px]': questionType === 'text_choice'
+  }"
 >
   <button
-    class="text-white font-medium rounded bg-blue-400 w-full px-5 py-3 enabled:hover:bg-blue-600 enabled:cursor-pointer"
+    class="text-white font-medium rounded bg-blue-400 w-full enabled:hover:bg-blue-600 enabled:cursor-pointer"
     *ngFor="let option of $any(answerChoices) | shuffle : response"
     [ngClass]="{
+      'px-5 py-3': questionType === 'text_choice',
+      'p-3': questionType === 'image_choice',
       'bg-green-500': response && option === correctAnswer,
       'bg-red-700':
         response && response !== correctAnswer ? option === response : null

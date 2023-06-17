@@ -54,7 +54,14 @@ export const selectCurrentQuestion = createSelector(
     question[currentIndex] as Question
 );
 
+export const selectTimerActive = createSelector(
+  selectQuizState,
+  (state: State) => state.isTimerActive as boolean
+);
+
 export const selectTimer = createSelector(
   selectQuizState,
-  (state: State) => state.timer || 0
+  selectTimerActive,
+  (state: State, isTimerActive: boolean) =>
+    isTimerActive ? state.timer || 0 : undefined
 );

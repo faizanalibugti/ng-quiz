@@ -67,7 +67,9 @@ export class QuizEffects {
       ofType(QuizActions.quizApiActions.loadQuizSuccess),
       concatLatestFrom(() => [
         this.store.select(QuizSelectors.selectNumberOfQuestions),
+        this.store.select(QuizSelectors.selectTimerActive),
       ]),
+      filter(([_, totalQuestions, isTimerActive]) => isTimerActive),
       switchMap(([_, totalQuestions]) =>
         interval(1000).pipe(
           scan((acc) => --acc, totalQuestions * 10),
@@ -80,7 +82,18 @@ export class QuizEffects {
             this.actions$.pipe(
               ofType(
                 QuizActions.quizActions.timesUp,
-                QuizActions.quizActions.submitQuiz
+                QuizActions.quizActions.submitQuiz,
+                QuizActions.quizActions.skipQuestion
+              ),
+              concatLatestFrom(() => [
+                this.store.select(QuizSelectors.selectNumberOfQuestions),
+                this.store.select(QuizSelectors.selectCurrentIndex),
+              ]),
+              filter(
+                ([{ type }, totalQuestions, currentQuestionNumber]) =>
+                  (type === "[Quiz] Skip Question" &&
+                    currentQuestionNumber >= totalQuestions) ||
+                  type !== "[Quiz] Skip Question"
               )
             )
           )
@@ -95,9 +108,15 @@ export class QuizEffects {
       concatLatestFrom(() => [
         this.store.select(QuizSelectors.selectTimer),
         this.store.select(QuizViewSelectors.displayTimer),
+        this.store.select(QuizSelectors.selectTimerActive),
       ]),
-      map(([{ remainingTime }, {}, { displayTime }]) => {
-        this.titleService.setTitle(`Trivia Quiz -  ⌛ ${displayTime}`);
+      filter(([_, remainingTime, quizTime, isTimerActive]) => isTimerActive),
+      map(([{ remainingTime }, _, quizTime]) => {
+        if (quizTime) {
+          this.titleService.setTitle(
+            `Trivia Quiz -  ⌛ ${quizTime.displayTime}`
+          );
+        }
         return { remainingTime };
       }),
       filter(({ remainingTime }) => remainingTime === 0),
@@ -109,8 +128,19 @@ export class QuizEffects {
     () =>
       this.actions$.pipe(
         ofType(
+          QuizActions.quizActions.skipQuestion,
           QuizActions.quizActions.submitQuiz,
           QuizActions.quizActions.timesUp
+        ),
+        concatLatestFrom(() => [
+          this.store.select(QuizSelectors.selectNumberOfQuestions),
+          this.store.select(QuizSelectors.selectCurrentIndex),
+        ]),
+        filter(
+          ([{ type }, totalQuestions, currentQuestionNumber]) =>
+            (type === "[Quiz] Skip Question" &&
+              currentQuestionNumber >= totalQuestions) ||
+            type !== "[Quiz] Skip Question"
         ),
         map(() => this.router.navigate(["result"]))
       ),

@@ -1,11 +1,15 @@
-import { TriviaCategories, TriviaQueryParams } from "@angular-quiz/api-interfaces";
+import {
+  TriviaCategories,
+  TriviaQueryParams,
+} from "@angular-quiz/api-interfaces";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { selectTriviaCategories } from "../+state/quiz.selectors";
 import * as QuizActions from "../../app/+state/quiz.actions";
-import { FormBuilder } from "@angular/forms";
+import { FormBuilder, Validators } from "@angular/forms";
+import { QuizMode } from "../+state/views/models/quiz-mode.model";
 
 @Component({
   selector: "angular-quiz-trivia-form",
@@ -15,6 +19,16 @@ import { FormBuilder } from "@angular/forms";
 export class TriviaFormComponent implements OnInit {
   difficulty = ["easy", "medium", "hard"];
   types = { "Text Choice": "text_choice", "Image Choice": "image_choice" };
+  modes = [
+    {
+      type: QuizMode.PRACTICE,
+      toolTip: "A un-timed mode to practice your trivia skills",
+    },
+    {
+      type: QuizMode.TRIVIA_CHALLENGE,
+      toolTip: "A timed challenge to test your trivia skills",
+    },
+  ];
   categories$!: Observable<TriviaCategories>;
 
   constructor(
@@ -24,6 +38,8 @@ export class TriviaFormComponent implements OnInit {
   ) {}
 
   triviaForm = this.fb.nonNullable.group({
+    name: ["Elliot Alderson", [Validators.required]],
+    mode: ["practice" as QuizMode],
     limit: [5],
     categories: [[""]],
     difficulties: [[""]],
@@ -37,11 +53,19 @@ export class TriviaFormComponent implements OnInit {
   }
 
   submitForm() {
-    this.store.dispatch(
-      QuizActions.quizActions.loadQuiz({
-        options: this.triviaForm.value as TriviaQueryParams,
-      })
-    );
+    const { name, mode, ...triviaQueryParams } = this.triviaForm.value;
+
+    if (name && mode) {
+      this.store.dispatch(
+        QuizActions.quizActions.loadQuiz({
+          options: triviaQueryParams as TriviaQueryParams,
+          mode,
+          name,
+        })
+      );
+    }
+
+    this.triviaForm.reset();
 
     this.router.navigate(["quiz"]);
   }

@@ -14,5 +14,5 @@ export interface QuizViewState {
   loaded: boolean;
   currentIndex: number;
   totalQuestions: number;
-  timer: Timer;
+  timer: Timer | null;
 }

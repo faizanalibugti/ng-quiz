@@ -7,6 +7,7 @@ import { createEntityAdapter } from "@ngrx/entity";
 import { EntityAdapter, EntityState } from "@ngrx/entity/src";
 import { createReducer, on } from "@ngrx/store";
 import * as QuizActions from "./quiz.actions";
+import { QuizMode } from "./views/models/quiz-mode.model";
 
 export const quizFeatureKey = "quiz";
 
@@ -19,6 +20,8 @@ export interface State extends EntityState<Question> {
   categories?: TriviaCategories;
   triviaOptions?: TriviaQueryParams;
   timer?: number;
+  isTimerActive?: boolean;
+  username?: string;
 }
 
 export const quizAdapter: EntityAdapter<Question> =
@@ -36,9 +39,11 @@ export const reducer = createReducer(
     ...state,
     categories: data,
   })),
-  on(QuizActions.quizActions.loadQuiz, (state, { options }) => ({
+  on(QuizActions.quizActions.loadQuiz, (state, { options, mode, name }) => ({
     ...state,
+    username: name,
     triviaOptions: options,
+    isTimerActive: mode === QuizMode.TRIVIA_CHALLENGE,
     loaded: false,
   })),
   on(QuizActions.quizApiActions.loadQuizSuccess, (state, { data }) =>
