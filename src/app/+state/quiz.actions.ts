@@ -19,6 +19,7 @@ export const quizActions = createActionGroup({
       questionId: string;
       response: string | ImageOption;
     }>(),
+    "Submit Quiz": emptyProps(),
   },
 });
 

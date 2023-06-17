@@ -1,16 +1,16 @@
-import { ImageOption } from '@angular-quiz/api-interfaces';
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { QuizViewState } from '../+state/views/models/quiz-view.model';
-import { quizViewState } from '../+state/views/quiz-views.selectors';
+import { ImageOption } from "@angular-quiz/api-interfaces";
+import { Component } from "@angular/core";
+import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs";
+import { QuizViewState } from "../+state/views/models/quiz-view.model";
+import { quizViewState } from "../+state/views/quiz-views.selectors";
 import * as QuizActions from "../../app/+state/quiz.actions";
 
 @Component({
-  selector: 'angular-quiz-quiz',
-  templateUrl: './quiz.component.html',
-  styleUrls: ['./quiz.component.scss']
+  selector: "angular-quiz-quiz",
+  templateUrl: "./quiz.component.html",
+  styleUrls: ["./quiz.component.scss"],
 })
 export class QuizComponent {
   quiz!: Observable<QuizViewState>;
@@ -25,11 +25,20 @@ export class QuizComponent {
     this.store.dispatch(QuizActions.quizActions.nextQuestion());
   }
 
-  recordResponse(option: string | ImageOption, questionId: string) {
+  finishQuiz() {
+    this.store.dispatch(QuizActions.quizActions.submitQuiz());
+  }
+
+  recordResponse(response: {
+    selectedOption: string | ImageOption;
+    questionId: string;
+  }): void {
+    let { selectedOption, questionId } = response;
+
     this.store.dispatch(
       QuizActions.quizActions.answerQuestion({
         questionId,
-        response: option,
+        response: selectedOption,
       })
     );
   }

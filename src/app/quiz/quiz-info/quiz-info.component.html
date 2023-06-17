@@ -1,0 +1,21 @@
+<div class="w-[70vw] flex justify-center">
+  <h1 class="font-bold text-center flex-1 absolute">
+    Question {{ currentQuestionNumber }}/{{ totalQuestions }}
+  </h1>
+  <h1 class="ml-auto">
+    <span
+      [ngStyle]="{
+        color:
+          timer.status === 'end'
+            ? 'red'
+            : timer.status === 'half'
+            ? 'rgb(234 179 8)'
+            : 'unset'
+      }"
+      class="fas fa-hourglass{{ '-' + timer.status }}"
+    >
+      {{ timer.displayTime }}
+    </span>
+  </h1>
+</div>
+<h2 class="font-semibold text-center">Score: {{ score }}</h2>

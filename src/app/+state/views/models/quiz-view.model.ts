@@ -2,8 +2,8 @@ import { ImageOption, QuestionType } from "@angular-quiz/api-interfaces";
 import { Timer } from "./timer.model";
 
 export interface QuizViewState {
-  id: string;
   content: {
+    questionId: string;
     question: string;
     answers: string[];
     response: string | ImageOption | undefined;

@@ -15,9 +15,10 @@ import { Timer, TimerStatus } from "./models/timer.model";
 
 const displayQuestion = createSelector(
   selectCurrentQuestion,
-  (question: Question) =>
+  (question: Question): QuizViewState["content"] | {} =>
     question
       ? {
+          questionId: question.id,
           question: question.question.text,
           answers: [
             ...(typeof question.incorrectAnswers[0] === "string"
@@ -77,7 +78,6 @@ export const quizViewState = createSelector(
     question: any,
     timer: any
   ): QuizViewState => ({
-    id: currentQuestion?.id,
     content: currentQuestion ? question : {},
     currentIndex: currentIndex + 1,
     score,

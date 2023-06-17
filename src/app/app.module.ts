@@ -18,9 +18,11 @@ import { TriviaFormComponent } from './trivia-form/trivia-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ResultsComponent } from './results/results.component';
 import { QuizComponent } from './quiz/quiz.component';
+import { QuizInfoComponent } from './quiz/quiz-info/quiz-info.component';
+import { AnswerOptionsComponent } from './quiz/answer-options/answer-options.component';
 
 @NgModule({
-  declarations: [AppComponent, TriviaFormComponent, ResultsComponent, QuizComponent],
+  declarations: [AppComponent, TriviaFormComponent, ResultsComponent, QuizComponent, QuizInfoComponent, AnswerOptionsComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

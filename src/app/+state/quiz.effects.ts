@@ -1,5 +1,6 @@
 import { NotificationsService, QuizHttpService } from "@angular-quiz/core-data";
 import { Injectable } from "@angular/core";
+import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { Actions, concatLatestFrom, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
@@ -16,9 +17,8 @@ import {
 } from "rxjs/operators";
 import * as QuizActions from "./quiz.actions";
 import * as QuizSelectors from "./quiz.selectors";
-import * as QuizViewSelectors from "./views/quiz-views.selectors";
 import { formatTriviaCategories } from "./utils/quiz.utils";
-import { Title } from "@angular/platform-browser";
+import * as QuizViewSelectors from "./views/quiz-views.selectors";
 
 @Injectable()
 export class QuizEffects {
@@ -76,7 +76,14 @@ export class QuizEffects {
               remainingTime,
             })
           ),
-          takeUntil(this.actions$.pipe(ofType(QuizActions.quizActions.timesUp)))
+          takeUntil(
+            this.actions$.pipe(
+              ofType(
+                QuizActions.quizActions.timesUp,
+                QuizActions.quizActions.submitQuiz
+              )
+            )
+          )
         )
       )
     )
@@ -90,7 +97,7 @@ export class QuizEffects {
         this.store.select(QuizViewSelectors.displayTimer),
       ]),
       map(([{ remainingTime }, {}, { displayTime }]) => {
-        this.titleService.setTitle(`Trivia Quiz - ${displayTime}`);
+        this.titleService.setTitle(`Trivia Quiz -  ⌛ ${displayTime}`);
         return { remainingTime };
       }),
       filter(({ remainingTime }) => remainingTime === 0),
@@ -98,21 +105,12 @@ export class QuizEffects {
     )
   );
 
-  endQuiz$ = createEffect(
+  showResult$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(
-          QuizActions.quizActions.nextQuestion,
-          QuizActions.quizActions.skipQuestion,
+          QuizActions.quizActions.submitQuiz,
           QuizActions.quizActions.timesUp
-        ),
-        concatLatestFrom(() => [
-          this.store.select(QuizSelectors.selectNumberOfQuestions),
-          this.store.select(QuizSelectors.selectCurrentIndex),
-        ]),
-        filter(
-          ([{ type }, totalQuestions, currentIndex]) =>
-            currentIndex + 1 > totalQuestions || type === "[Quiz] Times Up"
         ),
         map(() => this.router.navigate(["result"]))
       ),
