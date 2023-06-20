@@ -1,9 +1,8 @@
 import { ImageOption } from "@angular-quiz/api-interfaces";
 import { Component } from "@angular/core";
-import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { QuizViewState } from "../+state/views/models/quiz-view.model";
+import { QuizViewState } from "../+state/models/quiz-view.model";
 import { quizViewState } from "../+state/views/quiz-views.selectors";
 import * as QuizActions from "../../app/+state/quiz.actions";
 
@@ -13,20 +12,12 @@ import * as QuizActions from "../../app/+state/quiz.actions";
   styleUrls: ["./quiz.component.scss"],
 })
 export class QuizComponent {
-  quiz!: Observable<QuizViewState>;
+  quiz$!: Observable<QuizViewState>;
 
-  constructor(private readonly store: Store, private router: Router) {}
+  constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.quiz = this.store.select(quizViewState);
-  }
-
-  nextQuestion() {
-    this.store.dispatch(QuizActions.quizActions.nextQuestion());
-  }
-
-  finishQuiz() {
-    this.store.dispatch(QuizActions.quizActions.submitQuiz());
+    this.quiz$ = this.store.select(quizViewState);
   }
 
   recordResponse(response: {
@@ -45,5 +36,13 @@ export class QuizComponent {
 
   skipQuestion() {
     this.store.dispatch(QuizActions.quizActions.skipQuestion());
+  }
+  
+  nextQuestion() {
+    this.store.dispatch(QuizActions.quizActions.nextQuestion());
+  }
+
+  finishQuiz() {
+    this.store.dispatch(QuizActions.quizActions.submitQuiz());
   }
 }

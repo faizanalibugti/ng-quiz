@@ -2,9 +2,9 @@ export interface TriviaCategories {
   [key: string]: string[];
 }
 
-export interface TriviaQueryParams{
+export interface TriviaQueryParams {
   limit: number;
   categories: string[];
-  difficulty: string[];
+  difficulties: string[];
   types: string[];
 }

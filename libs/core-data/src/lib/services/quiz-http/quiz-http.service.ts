@@ -1,4 +1,10 @@
-import { TriviaCategories, Question, QuestionDifficulty } from "@angular-quiz/api-interfaces";
+import {
+  TriviaCategories,
+  Question,
+  QuestionDifficulty,
+  TriviaQueryParams,
+  QuestionType,
+} from "@angular-quiz/api-interfaces";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
@@ -24,13 +30,13 @@ export class QuizHttpService {
     );
   }
 
-  getQuestions(data?: any): Observable<Question[]> {
+  getQuestions(data?: TriviaQueryParams): Observable<Question[]> {
     let url = `${this.baseUrl}?`;
     console.log(data);
 
     if (data) {
       Object.keys(data).forEach((key, index) => {
-        if (index !== 0 && data[key].toString()) {
+        if (index !== 0 && data["limit"].toString()) {
           url += `&`;
         }
 
@@ -41,10 +47,14 @@ export class QuizHttpService {
             url += `categories=${data["categories"].toString()}`;
           }
         } else if (key === "types" && data[key].toString()) {
-          if (typeof data[key].toString() !== "string") {
-            throw Error("types must be a string");
-          } else {
+          if (
+            data[key].includes(
+              QuestionType.IMAGE_CHOICE || QuestionType.TEXT_CHOICE
+            )
+          ) {
             url += `types=${data["types"].toString()}`;
+          } else {
+            throw Error("types must either be image_choice or text_choice");
           }
         } else if (key === "limit" && data[key]) {
           if (isNaN(+data[key])) {
@@ -53,7 +63,13 @@ export class QuizHttpService {
             url += `limit=${data["limit"]}`;
           }
         } else if (key === "difficulties" && data[key].toString()) {
-          if (data[key] satisfies QuestionDifficulty) {
+          if (
+            data[key].includes(
+              QuestionDifficulty.EASY ||
+                QuestionDifficulty.MEDIUM ||
+                QuestionDifficulty.HARD
+            )
+          ) {
             url += `difficulties=${data["difficulties"].toString()}`;
           } else {
             throw Error("difficulty must be a either easy, medium or hard");

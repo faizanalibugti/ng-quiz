@@ -5,7 +5,7 @@ import {
   TriviaQueryParams,
 } from "@angular-quiz/api-interfaces";
 import { createActionGroup, emptyProps, props } from "@ngrx/store";
-import { QuizMode } from "./views/models/quiz-mode.model";
+import { QuizMode } from "./models/quiz-mode.model";
 
 export const quizActions = createActionGroup({
   source: "Quiz",

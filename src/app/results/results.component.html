@@ -1,11 +1,45 @@
 <ng-container *ngIf="result$ | async as result">
   <div class="flex flex-col place-items-center gap-4">
-    <h1>You scored {{ result.score }} out of {{ result.totalQuestions }}</h1>
+    <h1 class="text-3xl font-bold mb-4">Quiz Result</h1>
 
-    <p>
-      Your percentage was {{ ((result.score / result.totalQuestions) * 100).toFixed(2) }}%,
-      hence your performance was {{ result.status | uppercase }}
+    <h1 class="text-xl">
+      {{ result.username }}, you scored {{ result.score }} out of
+      {{ result.totalQuestions }}
+    </h1>
+
+    <p class="text-xl">
+      Your percentage is
+      {{ ((result.score / result.totalQuestions) * 100).toFixed(2) }}%
     </p>
+
+    <ng-cotainer
+      [ngSwitch]="result.status"
+      class="text-2xl font-medium text-center leading-10"
+    >
+      <ng-container *ngSwitchCase="'Excellent'">
+        <p>Congratulations, {{ result.username }}! 🎉</p>
+        <p>Outstanding performance, you are a trivia champion</p>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'Good'">
+        <p>Impressive, {{ result.username }}! 🔥</p>
+        <p>You're on your way to becoming a quiz master!</p>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'Average'">
+        <p>Nice try, {{ result.username }}! 🚀</p>
+        <p>Keep up the good work and aim for even higher scores!</p>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'Fail'">
+        <p>Appreciate the effort,
+           {{ result.username }}!</p>
+        <p>Better luck next time! 👍</p>
+        <p class="text-xl">
+          Pro Tip: Try to sharpen your skills in the Practice Mode
+        </p>
+      </ng-container>
+    </ng-cotainer>
 
     <button
       class="rounded shadow-md px-4 py-2 bg-blue-600 text-white place-content-center disabled:cursor-not-allowed disabled:bg-blue-500"

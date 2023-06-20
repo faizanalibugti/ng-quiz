@@ -1,6 +1,7 @@
 import { ImageOption, QuestionType } from "@angular-quiz/api-interfaces";
 import { Component, Input, Output } from "@angular/core";
 import { EventEmitter } from "@angular/core";
+import { QuizMode } from "src/app/+state/models/quiz-mode.model";
 
 @Component({
   selector: "angular-quiz-answer-options",
@@ -13,6 +14,7 @@ export class AnswerOptionsComponent {
   @Input() answerChoices!: string[] | ImageOption[];
   @Input() response?: string | ImageOption;
   @Input() correctAnswer!: string | ImageOption;
+  @Input() quizMode!: QuizMode;
 
   @Output() userResponse: EventEmitter<{
     selectedOption: string | ImageOption;

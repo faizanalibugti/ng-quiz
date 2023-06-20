@@ -1,4 +1,6 @@
 import {
+  QuestionDifficulty,
+  QuestionType,
   TriviaCategories,
   TriviaQueryParams,
 } from "@angular-quiz/api-interfaces";
@@ -9,7 +11,9 @@ import { Observable } from "rxjs";
 import { selectTriviaCategories } from "../+state/quiz.selectors";
 import * as QuizActions from "../../app/+state/quiz.actions";
 import { FormBuilder, Validators } from "@angular/forms";
-import { QuizMode } from "../+state/views/models/quiz-mode.model";
+import { QuizMode } from "../+state/models/quiz-mode.model";
+import { TriviaFormViewState } from "../+state/models/trivia-form-view.model";
+import { triviaFormViewState } from "../+state/views/trivia-form-views.selectors";
 
 @Component({
   selector: "angular-quiz-trivia-form",
@@ -17,19 +21,7 @@ import { QuizMode } from "../+state/views/models/quiz-mode.model";
   styleUrls: ["./trivia-form.component.scss"],
 })
 export class TriviaFormComponent implements OnInit {
-  difficulty = ["easy", "medium", "hard"];
-  types = { "Text Choice": "text_choice", "Image Choice": "image_choice" };
-  modes = [
-    {
-      type: QuizMode.PRACTICE,
-      toolTip: "A un-timed mode to practice your trivia skills",
-    },
-    {
-      type: QuizMode.TRIVIA_CHALLENGE,
-      toolTip: "A timed challenge to test your trivia skills",
-    },
-  ];
-  categories$!: Observable<TriviaCategories>;
+  trivia$!: Observable<TriviaFormViewState>;
 
   constructor(
     private readonly store: Store,
@@ -40,7 +32,7 @@ export class TriviaFormComponent implements OnInit {
   triviaForm = this.fb.nonNullable.group({
     name: ["Elliot Alderson", [Validators.required]],
     mode: ["practice" as QuizMode],
-    limit: [5],
+    limit: [10],
     categories: [[""]],
     difficulties: [[""]],
     types: [[""]],
@@ -49,7 +41,7 @@ export class TriviaFormComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(QuizActions.quizActions.loadCategories());
 
-    this.categories$ = this.store.select(selectTriviaCategories);
+    this.trivia$ = this.store.select(triviaFormViewState);
   }
 
   submitForm() {

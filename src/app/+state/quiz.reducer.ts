@@ -1,5 +1,7 @@
 import {
   Question,
+  QuestionDifficulty,
+  QuestionType,
   TriviaCategories,
   TriviaQueryParams,
 } from "@angular-quiz/api-interfaces";
@@ -7,11 +9,11 @@ import { createEntityAdapter } from "@ngrx/entity";
 import { EntityAdapter, EntityState } from "@ngrx/entity/src";
 import { createReducer, on } from "@ngrx/store";
 import * as QuizActions from "./quiz.actions";
-import { QuizMode } from "./views/models/quiz-mode.model";
+import { QuizMode } from "./models/quiz-mode.model";
 
 export const quizFeatureKey = "quiz";
 
-export interface State extends EntityState<Question> {
+export interface QuizState extends EntityState<Question> {
   selectedId?: string | number; // which Quiz record has been selected
   loaded: boolean; // has the Quiz list been loaded
   error?: string | null; // last known error (if any)
@@ -22,15 +24,38 @@ export interface State extends EntityState<Question> {
   timer?: number;
   isTimerActive?: boolean;
   username?: string;
+  difficulties: QuestionDifficulty[];
+  questionTypes: { [key: string]: QuestionType };
+  modes: { type: QuizMode; toolTip: string }[];
+  selectedMode?: QuizMode;
 }
 
 export const quizAdapter: EntityAdapter<Question> =
   createEntityAdapter<Question>();
 
-export const initialState: State = quizAdapter.getInitialState({
+export const initialState: QuizState = quizAdapter.getInitialState({
   loaded: false,
   currentIndex: 0,
   score: 0,
+  difficulties: [
+    QuestionDifficulty.EASY,
+    QuestionDifficulty.MEDIUM,
+    QuestionDifficulty.HARD,
+  ],
+  questionTypes: {
+    "Text Choice": QuestionType.TEXT_CHOICE,
+    "Image Choice": QuestionType.IMAGE_CHOICE,
+  },
+  modes: [
+    {
+      type: QuizMode.PRACTICE,
+      toolTip: "An un-timed learning mode to practice your trivia skills",
+    },
+    {
+      type: QuizMode.TRIVIA_CHALLENGE,
+      toolTip: "A timed challenge to put your trivia skills to the test",
+    },
+  ],
 });
 
 export const reducer = createReducer(
@@ -44,6 +69,7 @@ export const reducer = createReducer(
     username: name,
     triviaOptions: options,
     isTimerActive: mode === QuizMode.TRIVIA_CHALLENGE,
+    selectedMode: mode,
     loaded: false,
   })),
   on(QuizActions.quizApiActions.loadQuizSuccess, (state, { data }) =>

@@ -5,31 +5,32 @@ import {
   TriviaQueryParams,
 } from "@angular-quiz/api-interfaces";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { State, quizAdapter, quizFeatureKey } from "./quiz.reducer";
+import { QuizState, quizAdapter, quizFeatureKey } from "./quiz.reducer";
 import { mapImages } from "./utils/quiz.utils";
+import { QuizMode } from "./models/quiz-mode.model";
 
-export const selectQuizState = createFeatureSelector<State>(quizFeatureKey);
+export const selectQuizState = createFeatureSelector<QuizState>(quizFeatureKey);
 
 export const selectQuizLoaded = createSelector(
   selectQuizState,
-  (state: State) => state.loaded
+  (state: QuizState) => state.loaded
 );
 
 export const selectTriviaCategories = createSelector(
   selectQuizState,
-  (state: State) => state.categories as TriviaCategories
+  (state: QuizState) => state.categories as TriviaCategories
 );
 
 export const selectTriviaOptions = createSelector(
   selectQuizState,
-  (state: State) => state.triviaOptions as TriviaQueryParams
+  (state: QuizState) => state.triviaOptions as TriviaQueryParams
 );
 
 const { selectAll } = quizAdapter.getSelectors();
 
 export const selectQuizQuestions = createSelector(
   selectQuizState,
-  (state: State) => selectAll(state) as Question[]
+  (state: QuizState) => selectAll(state) as Question[]
 );
 
 export const selectNumberOfQuestions = createSelector(
@@ -39,12 +40,12 @@ export const selectNumberOfQuestions = createSelector(
 
 export const selectCurrentIndex = createSelector(
   selectQuizState,
-  (state: State) => state.currentIndex as number
+  (state: QuizState) => state.currentIndex as number
 );
 
 export const selectScore = createSelector(
   selectQuizState,
-  (state: State) => state.score as number
+  (state: QuizState) => state.score as number
 );
 
 export const selectCurrentQuestion = createSelector(
@@ -56,12 +57,37 @@ export const selectCurrentQuestion = createSelector(
 
 export const selectTimerActive = createSelector(
   selectQuizState,
-  (state: State) => state.isTimerActive as boolean
+  (state: QuizState) => state.isTimerActive as boolean
 );
 
 export const selectTimer = createSelector(
   selectQuizState,
   selectTimerActive,
-  (state: State, isTimerActive: boolean) =>
+  (state: QuizState, isTimerActive: boolean) =>
     isTimerActive ? state.timer || 0 : undefined
+);
+
+export const selectUsername = createSelector(
+  selectQuizState,
+  (state: QuizState) => state.username?.split(" ")[0]
+);
+
+export const selectDifficulties = createSelector(
+  selectQuizState,
+  (state: QuizState) => state.difficulties
+);
+
+export const selectModes = createSelector(
+  selectQuizState,
+  (state: QuizState) => state.modes
+);
+
+export const selectQuizMode = createSelector(
+  selectQuizState,
+  (state: QuizState) => state.selectedMode as QuizMode
+);
+
+export const selectQuestionTypes = createSelector(
+  selectQuizState,
+  (state: QuizState) => state.questionTypes
 );

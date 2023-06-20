@@ -10,9 +10,14 @@
     [ngClass]="{
       'px-5 py-3': questionType === 'text_choice',
       'p-3': questionType === 'image_choice',
-      'bg-green-500': response && option === correctAnswer,
+      'bg-green-500':
+        quizMode === 'practice' && response && option === correctAnswer,
       'bg-red-700':
-        response && response !== correctAnswer ? option === response : null
+        quizMode === 'practice' && response && response !== correctAnswer
+          ? option === response
+          : null,
+      'bg-pink-400':
+        quizMode === 'trivia challenge' && response && response === option
     }"
     [disabled]="response"
     [value]="option"

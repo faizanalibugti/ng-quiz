@@ -8,15 +8,15 @@ import {
   selectCurrentQuestion,
   selectTimer,
   selectTimerActive,
+  selectQuizMode,
 } from "../quiz.selectors";
-import { QuizViewState } from "./models/quiz-view.model";
-import { ResultStatus, ResultViewState } from "./models/result-view.model";
+import { QuizViewState } from "../models/quiz-view.model";
 import { mapImages } from "../utils/quiz.utils";
-import { Timer, TimerStatus } from "./models/timer.model";
+import { Timer, TimerStatus } from "../models/timer.model";
 
 const displayQuestion = createSelector(
   selectCurrentQuestion,
-  (question: Question): QuizViewState["content"] | {} =>
+  (question: Question) =>
     question
       ? {
           questionId: question.id,
@@ -28,7 +28,7 @@ const displayQuestion = createSelector(
             typeof question.correctAnswer === "string"
               ? question.correctAnswer
               : question.correctAnswer[0],
-          ],
+          ] as string[] | ImageOption[],
           response: question.response,
           correctAnswer:
             typeof question.correctAnswer === "string"
@@ -36,7 +36,7 @@ const displayQuestion = createSelector(
               : question.correctAnswer[0],
           type: question.type,
         }
-      : {}
+      : undefined
 );
 
 export const displayTimer = createSelector(
@@ -76,41 +76,24 @@ export const quizViewState = createSelector(
   selectNumberOfQuestions,
   selectScore,
   selectQuizLoaded,
-  selectCurrentQuestion,
   displayQuestion,
   displayTimer,
+  selectQuizMode,
   (
-    currentIndex: number,
-    totalQuestions: number,
-    score: number,
-    loaded: boolean,
-    currentQuestion: Question,
-    question: any,
-    timer: any
+    currentIndex,
+    totalQuestions,
+    score,
+    loaded,
+    currentQuestion,
+    timer,
+    mode
   ): QuizViewState => ({
-    content: currentQuestion ? question : {},
+    content: currentQuestion,
     currentIndex: currentIndex + 1,
     score,
     totalQuestions,
     timer,
+    mode,
     loaded,
   })
-);
-
-export const resultViewState = createSelector(
-  selectScore,
-  selectNumberOfQuestions,
-  (score: number, totalQuestions: number): ResultViewState => {
-    const percentage = (score / totalQuestions) * 100;
-    const status =
-      percentage >= 90
-        ? ResultStatus.EXCELLENT
-        : percentage >= 80 && percentage < 90
-        ? ResultStatus.GOOD
-        : percentage >= 60 && percentage < 80
-        ? ResultStatus.AVERAGE
-        : ResultStatus.FAIL;
-
-    return { score, totalQuestions, status };
-  }
 );

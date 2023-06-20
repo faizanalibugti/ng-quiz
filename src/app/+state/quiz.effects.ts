@@ -19,6 +19,7 @@ import * as QuizActions from "./quiz.actions";
 import * as QuizSelectors from "./quiz.selectors";
 import { formatTriviaCategories } from "./utils/quiz.utils";
 import * as QuizViewSelectors from "./views/quiz-views.selectors";
+import { ROUTER_NAVIGATED } from "@ngrx/router-store";
 
 @Injectable()
 export class QuizEffects {
@@ -81,19 +82,9 @@ export class QuizEffects {
           takeUntil(
             this.actions$.pipe(
               ofType(
+                ROUTER_NAVIGATED,
                 QuizActions.quizActions.timesUp,
-                QuizActions.quizActions.submitQuiz,
-                QuizActions.quizActions.skipQuestion
-              ),
-              concatLatestFrom(() => [
-                this.store.select(QuizSelectors.selectNumberOfQuestions),
-                this.store.select(QuizSelectors.selectCurrentIndex),
-              ]),
-              filter(
-                ([{ type }, totalQuestions, currentQuestionNumber]) =>
-                  (type === "[Quiz] Skip Question" &&
-                    currentQuestionNumber >= totalQuestions) ||
-                  type !== "[Quiz] Skip Question"
+                QuizActions.quizActions.submitQuiz
               )
             )
           )
