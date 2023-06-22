@@ -12,13 +12,13 @@ This is an implementation of a Trivia Quiz App using [The Trivia API](https://th
 
 * Nx Workspace (Angular Standalone Config)
 * Angular v15
-* Tailwind CSS
+* Angular Material
 * NgRx
-
+* Tailwind CSS
 
 ## Development server
 
-Run `nx serve angular-quiz` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+Run `nx serve angular-quiz` for a dev server. Navigate to <http://localhost:4200/>. The app will automatically reload if you change any of the source files.
 
 ## Understand this workspace
 

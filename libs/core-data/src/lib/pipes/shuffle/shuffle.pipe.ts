@@ -4,13 +4,13 @@ import { Pipe, PipeTransform } from "@angular/core";
 @Pipe({
   name: "shuffle",
 })
-export class ShufflePipe implements PipeTransform {
-  storeShuffle!: string[];
+export class ShufflePipe<T> implements PipeTransform {
+  storeShuffle!: T[];
 
   transform(
-    input: string[],
-    response: string | undefined | ImageOption
-  ): string[] {
+    input: T[],
+    response: T | undefined
+  ): T[] {
     if (!Array.isArray(input)) {
       return input;
     }

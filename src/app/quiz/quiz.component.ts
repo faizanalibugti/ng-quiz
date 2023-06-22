@@ -1,5 +1,5 @@
 import { ImageOption } from "@angular-quiz/api-interfaces";
-import { Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { QuizViewState } from "../+state/models/quiz-view.model";
@@ -10,6 +10,7 @@ import * as QuizActions from "../../app/+state/quiz.actions";
   selector: "angular-quiz-quiz",
   templateUrl: "./quiz.component.html",
   styleUrls: ["./quiz.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuizComponent {
   quiz$!: Observable<QuizViewState>;

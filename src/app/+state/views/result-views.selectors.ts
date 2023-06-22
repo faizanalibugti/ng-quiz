@@ -6,7 +6,7 @@ export const resultViewState = createSelector(
   selectScore,
   selectNumberOfQuestions,
   selectUsername,
-  (score, totalQuestions: number, username): ResultViewState => {
+  (score, totalQuestions, username): ResultViewState => {
     const percentage = (score / totalQuestions) * 100;
     const status =
       percentage >= 90

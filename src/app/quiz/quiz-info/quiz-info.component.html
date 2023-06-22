@@ -17,7 +17,7 @@
       }"
       class="fas fa-hourglass{{ '-' + timer.status }}"
     >
-      {{ timer.displayTime }}
+      {{ timer.remainingTime | timer }}
     </span>
   </h1>
 </div>

@@ -20,6 +20,7 @@ import * as QuizSelectors from "./quiz.selectors";
 import { formatTriviaCategories } from "./utils/quiz.utils";
 import * as QuizViewSelectors from "./views/quiz-views.selectors";
 import { ROUTER_NAVIGATED } from "@ngrx/router-store";
+import { TimerPipe } from "libs/core-data/src/lib/pipes/timer/timer.pipe";
 
 @Injectable()
 export class QuizEffects {
@@ -29,12 +30,17 @@ export class QuizEffects {
     private quizService: QuizHttpService,
     private notificationsService: NotificationsService,
     private titleService: Title,
-    private router: Router
+    private router: Router,
+    private timerPipe: TimerPipe
   ) {}
 
   loadTriviaCategories$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(QuizActions.quizActions.loadCategories),
+      concatLatestFrom(() =>
+        this.store.select(QuizSelectors.selectTriviaCategories)
+      ),
+      filter(([{}, triviaCategories]) => !triviaCategories),
       concatMap(() =>
         this.quizService.getCategories().pipe(
           map((categrories) => formatTriviaCategories(categrories)),
@@ -49,8 +55,8 @@ export class QuizEffects {
     );
   });
 
-  loadQuizQuestions$ = createEffect(() => {
-    return this.actions$.pipe(
+  loadQuizQuestions$ = createEffect(() =>
+    this.actions$.pipe(
       ofType(QuizActions.quizActions.loadQuiz),
       switchMap(({ options }) =>
         this.quizService.getQuestions(options).pipe(
@@ -60,8 +66,8 @@ export class QuizEffects {
           )
         )
       )
-    );
-  });
+    )
+  );
 
   timerStart$ = createEffect(() =>
     this.actions$.pipe(
@@ -101,11 +107,10 @@ export class QuizEffects {
         this.store.select(QuizViewSelectors.displayTimer),
         this.store.select(QuizSelectors.selectTimerActive),
       ]),
-      filter(([_, remainingTime, quizTime, isTimerActive]) => isTimerActive),
       map(([{ remainingTime }, _, quizTime]) => {
         if (quizTime) {
           this.titleService.setTitle(
-            `Trivia Quiz -  ⌛ ${quizTime.displayTime}`
+            `Trivia Quiz -  ⌛ ${this.timerPipe.transform(quizTime.remainingTime)}`
           );
         }
         return { remainingTime };
@@ -119,26 +124,32 @@ export class QuizEffects {
     () =>
       this.actions$.pipe(
         ofType(
-          QuizActions.quizActions.skipQuestion,
           QuizActions.quizActions.submitQuiz,
           QuizActions.quizActions.timesUp
-        ),
-        concatLatestFrom(() => [
-          this.store.select(QuizSelectors.selectNumberOfQuestions),
-          this.store.select(QuizSelectors.selectCurrentIndex),
-        ]),
-        filter(
-          ([{ type }, totalQuestions, currentQuestionNumber]) =>
-            (type === "[Quiz] Skip Question" &&
-              currentQuestionNumber >= totalQuestions) ||
-            type !== "[Quiz] Skip Question"
         ),
         map(() => this.router.navigate(["result"]))
       ),
     { dispatch: false }
   );
 
-  loadQuizError$ = createEffect(
+  showResultOnSkippingLastQuestion$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(QuizActions.quizActions.skipQuestion),
+        concatLatestFrom(() => [
+          this.store.select(QuizSelectors.selectNumberOfQuestions),
+          this.store.select(QuizSelectors.selectCurrentIndex),
+        ]),
+        filter(
+          ([{ type }, totalQuestions, currentQuestionNumber]) =>
+            currentQuestionNumber >= totalQuestions
+        ),
+        map(() => this.router.navigate(["result"]))
+      ),
+    { dispatch: false }
+  );
+
+  handleQuizError$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(

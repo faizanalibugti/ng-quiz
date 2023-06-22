@@ -19,7 +19,7 @@ export const formatTriviaCategories = (
 export const mapImages = (
   incorrectImageOptions: Array<ImageOption[]>
 ): ImageOption[] => {
-  return [...incorrectImageOptions].map((option) => {
-    return option[0];
-  });
+  return incorrectImageOptions.map((images) =>
+    images.reduce((acc, curr) => (acc.size < curr.size ? acc : curr))
+  );
 };

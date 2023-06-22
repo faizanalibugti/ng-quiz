@@ -9,7 +9,7 @@
 
     <p class="text-xl">
       Your percentage is
-      {{ ((result.score / result.totalQuestions) * 100).toFixed(2) }}%
+      {{ (result.score / result.totalQuestions) | percent }}
     </p>
 
     <ng-cotainer

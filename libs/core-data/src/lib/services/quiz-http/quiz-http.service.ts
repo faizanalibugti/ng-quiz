@@ -1,13 +1,14 @@
 import {
-  TriviaCategories,
   Question,
   QuestionDifficulty,
-  TriviaQueryParams,
   QuestionType,
+  TriviaCategories,
+  TriviaQueryParams,
 } from "@angular-quiz/api-interfaces";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, timer } from "rxjs";
+import { retry } from "rxjs/operators";
 import { endpoints } from "../endpoints/endpoints";
 
 @Injectable({
@@ -24,10 +25,17 @@ export class QuizHttpService {
   }
 
   getCategories(): Observable<TriviaCategories> {
-    return this.http.request<TriviaCategories>(
-      "GET",
-      `${this.API_ENDPOINT}/categories`
-    );
+    return this.http
+      .request<TriviaCategories>(
+        "GET",
+        `${this.API_ENDPOINT}/categories`
+      )
+      .pipe(
+        retry({
+          count: 3,
+          delay: (error, retryCount) => timer(500 * retryCount ** 2),
+        })
+      );
   }
 
   getQuestions(data?: TriviaQueryParams): Observable<Question[]> {
@@ -36,7 +44,7 @@ export class QuizHttpService {
 
     if (data) {
       Object.keys(data).forEach((key, index) => {
-        if (index !== 0 && data["limit"].toString()) {
+        if (index !== 0 && data[key as keyof TriviaQueryParams].toString()) {
           url += `&`;
         }
 
@@ -78,6 +86,11 @@ export class QuizHttpService {
       });
     }
 
-    return this.http.request<Question[]>(`GET`, url);
+    return this.http.request<Question[]>(`GET`, url).pipe(
+      retry({
+        count: 3,
+        delay: (error, retryCount) => timer(500 * retryCount ** 2),
+      })
+    );
   }
 }

@@ -4,30 +4,55 @@
     'flex flex-col gap-3 w-[300px]': questionType === 'text_choice'
   }"
 >
-  <button
-    class="text-white font-medium rounded bg-blue-400 w-full enabled:hover:bg-blue-600 enabled:cursor-pointer"
-    *ngFor="let option of $any(answerChoices) | shuffle : response"
-    [ngClass]="{
-      'px-5 py-3': questionType === 'text_choice',
-      'p-3': questionType === 'image_choice',
-      'bg-green-500':
-        quizMode === 'practice' && response && option === correctAnswer,
-      'bg-red-700':
-        quizMode === 'practice' && response && response !== correctAnswer
-          ? option === response
-          : null,
-      'bg-pink-400':
-        quizMode === 'trivia challenge' && response && response === option
-    }"
-    [disabled]="response"
-    [value]="option"
-    (click)="recordResponse(option, questionId)"
-  >
-    <span *ngIf="questionType === 'text_choice'; else imageOption">
-      {{ option }}
-    </span>
-    <ng-template #imageOption>
-      <img class="w-full h-full object-cover" [src]="$any(option).url" alt="" />
-    </ng-template>
-  </button>
+  <ng-container [ngSwitch]="questionType">
+    <ng-container *ngSwitchCase="'text_choice'">
+      <button
+        class="text-white font-medium px-5 py-3 rounded bg-blue-400 w-full enabled:hover:bg-blue-600 enabled:cursor-pointer"
+        *ngFor="let option of textOptions | shuffle:response"
+        [ngClass]="{
+          'bg-green-500':
+            quizMode === 'practice' && response && option === correctAnswer,
+          'bg-red-700':
+            quizMode === 'practice' && response && response !== correctAnswer
+              ? option === response
+              : null,
+          'bg-pink-400':
+            quizMode === 'trivia challenge' && response && response === option
+        }"
+        [disabled]="response"
+        [value]="option"
+        (click)="recordResponse(option, questionId)"
+      >
+        {{ option }}
+      </button>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'image_choice'">
+      <button
+        class="text-white font-medium p-3 relative rounded bg-blue-400 w-full enabled:hover:bg-blue-600 enabled:cursor-pointer"
+        *ngFor="let option of imageOptions | shuffle: response"
+        [ngClass]="{
+          'bg-green-500':
+            quizMode === 'practice' && response && option === correctAnswer,
+          'bg-red-700':
+            quizMode === 'practice' && response && response !== correctAnswer
+              ? option === response
+              : null,
+          'bg-pink-400':
+            quizMode === 'trivia challenge' && response && response === option
+        }"
+        [disabled]="response"
+        [value]="option"
+        (click)="recordResponse(option, questionId)"
+      >
+        <img
+          class="w-full h-full object-cover"
+          style="position: unset"
+          [ngSrc]="option.url"
+          [alt]="option.description"
+          fill
+        />
+      </button>
+    </ng-container>
+  </ng-container>
 </div>

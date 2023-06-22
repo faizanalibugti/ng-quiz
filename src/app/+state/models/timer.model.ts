@@ -5,6 +5,6 @@ export enum TimerStatus {
 }
 
 export interface Timer {
-  displayTime: string;
+  remainingTime: number;
   status: TimerStatus;
 }
