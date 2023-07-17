@@ -8,7 +8,7 @@ export const appRoutes: Route[] = [
   {
     path: "quiz",
     component: QuizComponent,
-    title: "Trivia Quiz",
+    title: "Trivia Quiz", 
   },
   {
     path: "result",

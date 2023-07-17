@@ -7,7 +7,7 @@ import { appRoutes } from "./app.routes";
 import { HttpClientModule } from "@angular/common/http";
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
-import { StoreRouterConnectingModule } from "@ngrx/router-store";
+import { RouterState, StoreRouterConnectingModule, routerReducer } from "@ngrx/router-store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import * as fromQuiz from "./+state/quiz.reducer";
 import { QuizEffects } from "./+state/quiz.effects";
@@ -42,7 +42,9 @@ import { TimerPipe } from "libs/core-data/src/lib/pipes/timer/timer.pipe";
     CoreDataModule,
     MaterialModule,
     StoreModule.forRoot(
-      {},
+      {
+        router: routerReducer
+      },
       {
         metaReducers: [],
         runtimeChecks: {
@@ -52,7 +54,9 @@ import { TimerPipe } from "libs/core-data/src/lib/pipes/timer/timer.pipe";
       }
     ),
     EffectsModule.forRoot([]),
-    StoreRouterConnectingModule.forRoot(),
+    StoreRouterConnectingModule.forRoot({
+      routerState: RouterState.Minimal,
+    }),
     StoreDevtoolsModule.instrument({}),
     StoreModule.forFeature(fromQuiz.quizFeatureKey, fromQuiz.reducer),
     EffectsModule.forFeature([QuizEffects]),

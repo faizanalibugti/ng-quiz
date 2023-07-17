@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { ResultViewState } from "../+state/models/result-view.model";
@@ -12,9 +12,9 @@ import { ChangeDetectionStrategy } from "@angular/core";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResultsComponent implements OnInit {
-  result$!: Observable<ResultViewState>;
+  private readonly store = inject(Store);
 
-  constructor(private readonly store: Store) {}
+  result$!: Observable<ResultViewState>;
 
   ngOnInit(): void {
     this.result$ = this.store.pipe(select(resultViewState));

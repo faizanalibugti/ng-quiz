@@ -4,7 +4,7 @@ import {
   TriviaCategories,
   TriviaQueryParams,
 } from "@angular-quiz/api-interfaces";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
@@ -21,13 +21,11 @@ import { triviaFormViewState } from "../+state/views/trivia-form-views.selectors
   styleUrls: ["./trivia-form.component.scss"],
 })
 export class TriviaFormComponent implements OnInit {
-  trivia$!: Observable<TriviaFormViewState>;
+  private readonly store = inject(Store);
+  private router = inject(Router);
+  private fb = inject(FormBuilder);
 
-  constructor(
-    private readonly store: Store,
-    private router: Router,
-    private fb: FormBuilder
-  ) {}
+  trivia$!: Observable<TriviaFormViewState>;
 
   triviaForm = this.fb.nonNullable.group({
     name: ["Elliot Alderson", [Validators.required]],

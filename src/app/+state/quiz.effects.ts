@@ -1,10 +1,10 @@
 import { NotificationsService, QuizHttpService } from "@angular-quiz/core-data";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { Actions, concatLatestFrom, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { interval, of } from "rxjs";
+import { interval, of, timer } from "rxjs";
 import {
   catchError,
   concatMap,
@@ -24,15 +24,13 @@ import { TimerPipe } from "libs/core-data/src/lib/pipes/timer/timer.pipe";
 
 @Injectable()
 export class QuizEffects {
-  constructor(
-    private actions$: Actions,
-    private readonly store: Store,
-    private quizService: QuizHttpService,
-    private notificationsService: NotificationsService,
-    private titleService: Title,
-    private router: Router,
-    private timerPipe: TimerPipe
-  ) {}
+  private actions$ = inject(Actions);
+  private readonly store = inject(Store);
+  private quizService = inject(QuizHttpService);
+  private notificationsService = inject(NotificationsService);
+  private titleService = inject(Title);
+  private router = inject(Router);
+  private timerPipe = inject(TimerPipe);
 
   loadTriviaCategories$ = createEffect(() => {
     return this.actions$.pipe(
@@ -78,7 +76,7 @@ export class QuizEffects {
       ]),
       filter(([_, totalQuestions, isTimerActive]) => isTimerActive),
       switchMap(([_, totalQuestions]) =>
-        interval(1000).pipe(
+        timer(0, 1000).pipe(
           scan((acc) => --acc, totalQuestions * 10),
           map((remainingTime) =>
             QuizActions.quizActions.updateTimer({
@@ -110,7 +108,9 @@ export class QuizEffects {
       map(([{ remainingTime }, _, quizTime]) => {
         if (quizTime) {
           this.titleService.setTitle(
-            `Trivia Quiz -  ⌛ ${this.timerPipe.transform(quizTime.remainingTime)}`
+            `Trivia Quiz -  ⌛ ${this.timerPipe.transform(
+              quizTime.remainingTime
+            )}`
           );
         }
         return { remainingTime };
