@@ -1,19 +1,13 @@
-import {
-  QuestionDifficulty,
-  QuestionType,
-  TriviaCategories,
-  TriviaQueryParams,
-} from "@angular-quiz/api-interfaces";
+import { TriviaQueryParams } from "@angular-quiz/api-interfaces";
 import { Component, OnInit, inject } from "@angular/core";
+import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { selectTriviaCategories } from "../+state/quiz.selectors";
-import * as QuizActions from "../../app/+state/quiz.actions";
-import { FormBuilder, Validators } from "@angular/forms";
 import { QuizMode } from "../+state/models/quiz-mode.model";
 import { TriviaFormViewState } from "../+state/models/trivia-form-view.model";
-import { triviaFormViewState } from "../+state/views/trivia-form-views.selectors";
+import { selectTriviaFormViewState } from "../+state/views/trivia-form-views.selectors";
+import * as QuizActions from "../../app/+state/quiz.actions";
 
 @Component({
   selector: "angular-quiz-trivia-form",
@@ -39,7 +33,7 @@ export class TriviaFormComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(QuizActions.quizActions.loadCategories());
 
-    this.trivia$ = this.store.select(triviaFormViewState);
+    this.trivia$ = this.store.select(selectTriviaFormViewState);
   }
 
   submitForm() {

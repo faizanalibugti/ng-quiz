@@ -8,8 +8,8 @@ import {
 import { createEntityAdapter } from "@ngrx/entity";
 import { EntityAdapter, EntityState } from "@ngrx/entity/src";
 import { createReducer, on } from "@ngrx/store";
-import * as QuizActions from "./quiz.actions";
 import { QuizMode } from "./models/quiz-mode.model";
+import * as QuizActions from "./quiz.actions";
 
 export const quizFeatureKey = "quiz";
 
@@ -60,18 +60,24 @@ export const initialState: QuizState = quizAdapter.getInitialState({
 
 export const reducer = createReducer(
   initialState,
-  on(QuizActions.quizApiActions.loadCategoriesSuccess, (state, { data }) => ({
-    ...state,
-    categories: data,
-  })),
-  on(QuizActions.quizActions.loadQuiz, (state, { options, mode, name }) => ({
-    ...state,
-    username: name,
-    triviaOptions: options,
-    isTimerActive: mode === QuizMode.TRIVIA_CHALLENGE,
-    selectedMode: mode,
-    loaded: false,
-  })),
+  on(
+    QuizActions.quizApiActions.loadCategoriesSuccess,
+    (state, { data }): QuizState => ({
+      ...state,
+      categories: data,
+    })
+  ),
+  on(
+    QuizActions.quizActions.loadQuiz,
+    (state, { options, mode, name }): QuizState => ({
+      ...state,
+      username: name,
+      triviaOptions: options,
+      isTimerActive: mode === QuizMode.TRIVIA_CHALLENGE,
+      selectedMode: mode,
+      loaded: false,
+    })
+  ),
   on(QuizActions.quizApiActions.loadQuizSuccess, (state, { data }) =>
     quizAdapter.setAll(data, {
       ...state,
@@ -83,15 +89,18 @@ export const reducer = createReducer(
   on(
     QuizActions.quizApiActions.loadQuizFailure,
     QuizActions.quizApiActions.loadCategoriesFailure,
-    (state, { error }) => ({
+    (state, { error }): QuizState => ({
       ...state,
       error,
     })
   ),
-  on(QuizActions.quizActions.updateTimer, (state, { remainingTime }) => ({
-    ...state,
-    timer: remainingTime,
-  })),
+  on(
+    QuizActions.quizActions.updateTimer,
+    (state, { remainingTime }): QuizState => ({
+      ...state,
+      timer: remainingTime,
+    })
+  ),
   on(
     QuizActions.quizActions.answerQuestion,
     (state, { questionId, response }) =>
@@ -114,7 +123,7 @@ export const reducer = createReducer(
   on(
     QuizActions.quizActions.nextQuestion,
     QuizActions.quizActions.skipQuestion,
-    (state) => ({
+    (state): QuizState => ({
       ...state,
       // currentIndex: state.ids[state.currentIndex + 1]
       //   ? state.currentIndex + 1

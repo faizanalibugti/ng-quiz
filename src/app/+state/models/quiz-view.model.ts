@@ -16,5 +16,5 @@ export interface QuizViewState {
   currentIndex: number;
   totalQuestions: number;
   timer: Timer | undefined;
-  mode: QuizMode
+  mode: QuizMode;
 }

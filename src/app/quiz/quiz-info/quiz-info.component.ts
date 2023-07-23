@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import { Timer } from "src/app/+state/models/timer.model";
+import { Component, Input } from "@angular/core";
+import { Timer } from "../../+state/models/timer.model";
 
 @Component({
   selector: "angular-quiz-quiz-info",

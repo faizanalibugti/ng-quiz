@@ -10,11 +10,11 @@ You can view the production version of this app [here](https://faizan-ng-quiz.ne
 
 This is an implementation of a Trivia Quiz App using [The Trivia API](https://the-trivia-api.com/) using:
 
-* Nx Workspace (Angular Standalone Config)
-* Angular v15
-* Angular Material
-* NgRx
-* Tailwind CSS
+- Nx Workspace (Angular Standalone Config)
+- Angular v15
+- Angular Material
+- NgRx
+- Tailwind CSS
 
 ## Development server
 

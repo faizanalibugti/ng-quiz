@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { ResultViewState } from "../+state/models/result-view.model";
-import { resultViewState } from "../+state/views/result-views.selectors";
+import { selectResultViewState } from "../+state/views/result-views.selectors";
 import { ChangeDetectionStrategy } from "@angular/core";
 
 @Component({
@@ -17,6 +17,6 @@ export class ResultsComponent implements OnInit {
   result$!: Observable<ResultViewState>;
 
   ngOnInit(): void {
-    this.result$ = this.store.pipe(select(resultViewState));
+    this.result$ = this.store.pipe(select(selectResultViewState));
   }
 }

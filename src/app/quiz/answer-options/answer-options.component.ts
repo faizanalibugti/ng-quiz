@@ -1,6 +1,6 @@
 import { ImageOption, QuestionType } from "@angular-quiz/api-interfaces";
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { QuizMode } from "src/app/+state/models/quiz-mode.model";
+import { QuizMode } from "../../+state/models/quiz-mode.model";
 
 @Component({
   selector: "angular-quiz-answer-options",

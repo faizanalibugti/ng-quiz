@@ -1,8 +1,12 @@
 import { createSelector } from "@ngrx/store";
 import { ResultViewState, ResultStatus } from "../models/result-view.model";
-import { selectScore, selectNumberOfQuestions, selectUsername } from "../quiz.selectors";
+import {
+  selectScore,
+  selectNumberOfQuestions,
+  selectUsername,
+} from "../quiz.selectors";
 
-export const resultViewState = createSelector(
+export const selectResultViewState = createSelector(
   selectScore,
   selectNumberOfQuestions,
   selectUsername,

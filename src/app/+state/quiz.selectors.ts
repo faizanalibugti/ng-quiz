@@ -1,13 +1,11 @@
 import {
-  ImageOption,
   Question,
   TriviaCategories,
   TriviaQueryParams,
 } from "@angular-quiz/api-interfaces";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { QuizState, quizAdapter, quizFeatureKey } from "./quiz.reducer";
-import { mapImages } from "./utils/quiz.utils";
 import { QuizMode } from "./models/quiz-mode.model";
+import { QuizState, quizAdapter, quizFeatureKey } from "./quiz.reducer";
 
 export const selectQuizState = createFeatureSelector<QuizState>(quizFeatureKey);
 

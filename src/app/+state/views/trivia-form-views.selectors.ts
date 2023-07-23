@@ -7,7 +7,7 @@ import {
 } from "../quiz.selectors";
 import { TriviaFormViewState } from "../models/trivia-form-view.model";
 
-export const triviaFormViewState = createSelector(
+export const selectTriviaFormViewState = createSelector(
   selectTriviaCategories,
   selectDifficulties,
   selectQuestionTypes,

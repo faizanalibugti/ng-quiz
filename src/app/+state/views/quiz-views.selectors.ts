@@ -14,11 +14,11 @@ import { QuizViewState } from "../models/quiz-view.model";
 import { mapImages } from "../utils/quiz.utils";
 import { Timer, TimerStatus } from "../models/timer.model";
 
-const displayQuestion = createSelector(
+const selectDisplayQuestion = createSelector(
   selectCurrentQuestion,
   (question: Question) => {
     if (question) {
-      let questionDetail = {
+      const questionDetail = {
         questionId: question.id,
         question: question.question.text,
         answers: [
@@ -44,7 +44,7 @@ const displayQuestion = createSelector(
   }
 );
 
-export const displayTimer = createSelector(
+export const selectDisplayTimer = createSelector(
   selectTimer,
   selectTimerActive,
   selectNumberOfQuestions,
@@ -70,13 +70,13 @@ export const displayTimer = createSelector(
   }
 );
 
-export const quizViewState = createSelector(
+export const selectQuizViewState = createSelector(
   selectCurrentIndex,
   selectNumberOfQuestions,
   selectScore,
   selectQuizLoaded,
-  displayQuestion,
-  displayTimer,
+  selectDisplayQuestion,
+  selectDisplayTimer,
   selectQuizMode,
   (
     currentIndex,

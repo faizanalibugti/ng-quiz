@@ -1,31 +1,31 @@
 import { ImageOption } from "@angular-quiz/api-interfaces";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { QuizViewState } from "../+state/models/quiz-view.model";
-import { quizViewState } from "../+state/views/quiz-views.selectors";
+import { selectQuizViewState } from "../+state/views/quiz-views.selectors";
 import * as QuizActions from "../../app/+state/quiz.actions";
 
 @Component({
   selector: "angular-quiz-quiz",
   templateUrl: "./quiz.component.html",
   styleUrls: ["./quiz.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuizComponent {
+  private readonly store = inject(Store);
+
   quiz$!: Observable<QuizViewState>;
 
-  constructor(private readonly store: Store) {}
-
   ngOnInit(): void {
-    this.quiz$ = this.store.select(quizViewState);
+    this.quiz$ = this.store.select(selectQuizViewState);
   }
 
   recordResponse(response: {
     selectedOption: string | ImageOption;
     questionId: string;
   }): void {
-    let { selectedOption, questionId } = response;
+    const { selectedOption, questionId } = response;
 
     this.store.dispatch(
       QuizActions.quizActions.answerQuestion({
@@ -38,7 +38,7 @@ export class QuizComponent {
   skipQuestion() {
     this.store.dispatch(QuizActions.quizActions.skipQuestion());
   }
-  
+
   nextQuestion() {
     this.store.dispatch(QuizActions.quizActions.nextQuestion());
   }

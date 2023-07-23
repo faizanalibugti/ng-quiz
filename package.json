@@ -39,6 +39,7 @@
     "@angular/cli": "~15.2.0",
     "@angular/compiler-cli": "~15.2.0",
     "@angular/language-service": "~15.2.0",
+    "@ngrx/eslint-plugin": "^15.3.0",
     "@ngrx/schematics": "~15.3.0",
     "@ngrx/store-devtools": "~15.3.0",
     "@nrwl/cypress": "15.8.7",

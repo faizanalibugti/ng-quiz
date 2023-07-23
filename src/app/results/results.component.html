@@ -9,7 +9,7 @@
 
     <p class="text-xl">
       Your percentage is
-      {{ (result.score / result.totalQuestions) | percent }}
+      {{ result.score / result.totalQuestions | percent }}
     </p>
 
     <ng-cotainer
@@ -32,8 +32,7 @@
       </ng-container>
 
       <ng-container *ngSwitchCase="'Fail'">
-        <p>Appreciate the effort,
-           {{ result.username }}!</p>
+        <p>Appreciate the effort, {{ result.username }}!</p>
         <p>Better luck next time! 👍</p>
         <p class="text-xl">
           Pro Tip: Try to sharpen your skills in the Practice Mode

@@ -32,8 +32,8 @@ export const quizApiActions = createActionGroup({
   source: "Quiz API",
   events: {
     "Load Categories Success": props<{ data: TriviaCategories }>(),
-    "Load Categories Failure": props<{ error: any }>(),
+    "Load Categories Failure": props<{ error: string }>(),
     "Load Quiz Success": props<{ data: Question[] }>(),
-    "Load Quiz Failure": props<{ error: any }>(),
+    "Load Quiz Failure": props<{ error: string }>(),
   },
 });

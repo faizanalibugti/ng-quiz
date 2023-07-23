@@ -1,8 +1,8 @@
 import { Injectable, inject } from "@angular/core";
 import { Store, select } from "@ngrx/store";
-import { triviaFormViewState } from "../views/trivia-form-views.selectors";
-import { quizViewState } from "../views/quiz-views.selectors";
-import { resultViewState } from "../views/result-views.selectors";
+import { selectQuizViewState } from "../views/quiz-views.selectors";
+import { selectResultViewState } from "../views/result-views.selectors";
+import { selectTriviaFormViewState } from "../views/trivia-form-views.selectors";
 
 @Injectable({
   providedIn: "root",
@@ -11,14 +11,14 @@ export class QuizPageService {
   private store = inject(Store);
 
   displayTriviaFormPage() {
-    return this.store.pipe(select(triviaFormViewState));
+    return this.store.pipe(select(selectTriviaFormViewState));
   }
 
   displayQuizPage() {
-    return this.store.pipe(select(quizViewState));
+    return this.store.pipe(select(selectQuizViewState));
   }
 
   displayResultsPage() {
-    return this.store.pipe(select(resultViewState));
-  }  
+    return this.store.pipe(select(selectResultViewState));
+  }
 }

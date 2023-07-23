@@ -6,7 +6,7 @@ export const formatTriviaCategories = (
   const triviaCategories: TriviaCategories = {};
 
   for (const key in categrories) {
-    let categoryValue = categrories[key].filter((value, index, array) =>
+    const categoryValue = categrories[key].filter((value, index, array) =>
       array.length === 1 ? value : value.includes("_")
     );
 
