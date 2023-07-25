@@ -1,2 +1,6 @@
+/.vscode
+/dist
+/coverage
 node_modules
 .angular
+/tools
