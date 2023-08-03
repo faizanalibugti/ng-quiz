@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { Timer } from "../../+state/models/timer.model";
+import { Timer } from "../../+state/quiz/models/timer.model";
 
 @Component({
   selector: "angular-quiz-quiz-info",

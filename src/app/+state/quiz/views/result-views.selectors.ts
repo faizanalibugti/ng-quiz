@@ -1,14 +1,10 @@
 import { createSelector } from "@ngrx/store";
 import { ResultViewState, ResultStatus } from "../models/result-view.model";
-import {
-  selectScore,
-  selectNumberOfQuestions,
-  selectUsername,
-} from "../quiz.selectors";
+import { selectScore, selectTotal, selectUsername } from "../quiz.reducer";
 
 export const selectResultViewState = createSelector(
   selectScore,
-  selectNumberOfQuestions,
+  selectTotal,
   selectUsername,
   (score, totalQuestions, username): ResultViewState => {
     const percentage = (score / totalQuestions) * 100;

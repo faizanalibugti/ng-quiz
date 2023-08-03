@@ -7,6 +7,11 @@ import { selectTriviaFormViewState } from "../views/trivia-form-views.selectors"
 @Injectable({
   providedIn: "root",
 })
+/**
+ * TODO
+ * Implement handleItemAction and utilize the service across dependent components
+ * to use the facade pattern
+ */
 export class QuizPageService {
   private store = inject(Store);
 

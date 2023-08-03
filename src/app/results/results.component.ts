@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { ResultViewState } from "../+state/models/result-view.model";
-import { selectResultViewState } from "../+state/views/result-views.selectors";
+import { ResultViewState } from "../+state/quiz/models/result-view.model";
+import { selectResultViewState } from "../+state/quiz/views/result-views.selectors";
 import { ChangeDetectionStrategy } from "@angular/core";
 
 @Component({

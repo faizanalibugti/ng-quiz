@@ -6,7 +6,7 @@ import {
 import { QuizMode } from "./quiz-mode.model";
 
 export interface TriviaFormViewState {
-  categories: TriviaCategories;
+  categories?: TriviaCategories;
   difficulties: QuestionDifficulty[];
   questionTypes: {
     [key: string]: QuestionType;

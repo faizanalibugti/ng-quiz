@@ -21,7 +21,7 @@ import {
   tap,
 } from "rxjs/operators";
 import * as QuizActions from "./quiz.actions";
-import * as QuizSelectors from "./quiz.selectors";
+import * as QuizSelectors from "./quiz.reducer";
 import { formatTriviaCategories } from "./utils/quiz.utils";
 import * as QuizViewSelectors from "./views/quiz-views.selectors";
 
@@ -38,9 +38,7 @@ export class QuizEffects {
   loadTriviaCategories$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(QuizActions.quizActions.loadCategories),
-      concatLatestFrom(() =>
-        this.store.select(QuizSelectors.selectTriviaCategories)
-      ),
+      concatLatestFrom(() => this.store.select(QuizSelectors.selectCategories)),
       filter(([, triviaCategories]) => !triviaCategories),
       concatMap(() =>
         this.quizService.getCategories().pipe(
@@ -74,8 +72,8 @@ export class QuizEffects {
     return this.actions$.pipe(
       ofType(QuizActions.quizApiActions.loadQuizSuccess),
       concatLatestFrom(() => [
-        this.store.select(QuizSelectors.selectNumberOfQuestions),
-        this.store.select(QuizSelectors.selectTimerActive),
+        this.store.select(QuizSelectors.selectTotal),
+        this.store.select(QuizSelectors.selectIsTimerActive),
       ]),
       filter(([, , isTimerActive]) => isTimerActive),
       switchMap(([, totalQuestions]) =>
@@ -106,7 +104,7 @@ export class QuizEffects {
       concatLatestFrom(() => [
         this.store.select(QuizSelectors.selectTimer),
         this.store.select(QuizViewSelectors.selectDisplayTimer),
-        this.store.select(QuizSelectors.selectTimerActive),
+        this.store.select(QuizSelectors.selectIsTimerActive),
       ]),
       map(([{ remainingTime }, , quizTime]) => {
         if (quizTime) {
@@ -141,7 +139,7 @@ export class QuizEffects {
       return this.actions$.pipe(
         ofType(QuizActions.quizActions.skipQuestion),
         concatLatestFrom(() => [
-          this.store.select(QuizSelectors.selectNumberOfQuestions),
+          this.store.select(QuizSelectors.selectTotal),
           this.store.select(QuizSelectors.selectCurrentIndex),
         ]),
         filter(

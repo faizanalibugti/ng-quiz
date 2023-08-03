@@ -2,9 +2,9 @@ import { ImageOption } from "@angular-quiz/api-interfaces";
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { QuizViewState } from "../+state/models/quiz-view.model";
-import { selectQuizViewState } from "../+state/views/quiz-views.selectors";
-import * as QuizActions from "../../app/+state/quiz.actions";
+import { QuizViewState } from "../+state/quiz/models/quiz-view.model";
+import { selectQuizViewState } from "../+state/quiz/views/quiz-views.selectors";
+import * as QuizActions from "../../app/+state/quiz/quiz.actions";
 
 @Component({
   selector: "angular-quiz-quiz",

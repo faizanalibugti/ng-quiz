@@ -2,14 +2,14 @@ import { ImageOption, Question } from "@angular-quiz/api-interfaces";
 import { createSelector } from "@ngrx/store";
 import {
   selectCurrentIndex,
-  selectNumberOfQuestions,
+  selectTotal,
   selectScore,
-  selectQuizLoaded,
-  selectCurrentQuestion,
+  selectLoaded,
   selectTimer,
-  selectTimerActive,
-  selectQuizMode,
-} from "../quiz.selectors";
+  selectIsTimerActive,
+  selectSelectedMode,
+  selectCurrentQuestion,
+} from "../quiz.reducer";
 import { QuizViewState } from "../models/quiz-view.model";
 import { mapImages } from "../utils/quiz.utils";
 import { Timer, TimerStatus } from "../models/timer.model";
@@ -46,8 +46,8 @@ const selectDisplayQuestion = createSelector(
 
 export const selectDisplayTimer = createSelector(
   selectTimer,
-  selectTimerActive,
-  selectNumberOfQuestions,
+  selectIsTimerActive,
+  selectTotal,
   (
     remainingTime: number | undefined,
     isTimerActive: boolean,
@@ -72,12 +72,12 @@ export const selectDisplayTimer = createSelector(
 
 export const selectQuizViewState = createSelector(
   selectCurrentIndex,
-  selectNumberOfQuestions,
+  selectTotal,
   selectScore,
-  selectQuizLoaded,
+  selectLoaded,
   selectDisplayQuestion,
   selectDisplayTimer,
-  selectQuizMode,
+  selectSelectedMode,
   (
     currentIndex,
     totalQuestions,

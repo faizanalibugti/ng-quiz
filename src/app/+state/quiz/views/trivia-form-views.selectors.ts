@@ -1,14 +1,15 @@
 import { createSelector } from "@ngrx/store";
+
+import { TriviaFormViewState } from "../models/trivia-form-view.model";
 import {
   selectDifficulties,
   selectModes,
   selectQuestionTypes,
-  selectTriviaCategories,
-} from "../quiz.selectors";
-import { TriviaFormViewState } from "../models/trivia-form-view.model";
+  selectCategories,
+} from "../quiz.reducer";
 
 export const selectTriviaFormViewState = createSelector(
-  selectTriviaCategories,
+  selectCategories,
   selectDifficulties,
   selectQuestionTypes,
   selectModes,

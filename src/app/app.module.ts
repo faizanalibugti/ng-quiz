@@ -16,8 +16,8 @@ import {
 } from "@ngrx/router-store";
 import { StoreModule } from "@ngrx/store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
-import { QuizEffects } from "./+state/quiz.effects";
-import * as fromQuiz from "./+state/quiz.reducer";
+import { QuizEffects } from "./+state/quiz/quiz.effects";
+import * as fromQuiz from "./+state/quiz/quiz.reducer";
 import { AppComponent } from "./app.component";
 import { appRoutes } from "./app.routes";
 import { AnswerOptionsComponent } from "./quiz/answer-options/answer-options.component";
@@ -61,7 +61,7 @@ import { TriviaFormComponent } from "./trivia-form/trivia-form.component";
       routerState: RouterState.Minimal,
     }),
     StoreDevtoolsModule.instrument({}),
-    StoreModule.forFeature(fromQuiz.quizFeatureKey, fromQuiz.reducer),
+    StoreModule.forFeature(fromQuiz.quizFeature),
     EffectsModule.forFeature([QuizEffects]),
   ],
   providers: [TimerPipe],

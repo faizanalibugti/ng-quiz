@@ -7,27 +7,27 @@ import {
 } from "@angular-quiz/api-interfaces";
 import { createEntityAdapter } from "@ngrx/entity";
 import { EntityAdapter, EntityState } from "@ngrx/entity/src";
-import { createReducer, on } from "@ngrx/store";
+import { createFeature, createReducer, createSelector, on } from "@ngrx/store";
 import { QuizMode } from "./models/quiz-mode.model";
 import * as QuizActions from "./quiz.actions";
 
 export const quizFeatureKey = "quiz";
 
 export interface QuizState extends EntityState<Question> {
-  selectedId?: string | number; // which Quiz record has been selected
+  selectedId: string | number | null; // which Quiz record has been selected
   loaded: boolean; // has the Quiz list been loaded
-  error?: string | null; // last known error (if any)
+  error: string | null; // last known error (if any)
   currentIndex: number;
   score: number;
-  categories?: TriviaCategories;
-  triviaOptions?: TriviaQueryParams;
-  timer?: number;
-  isTimerActive?: boolean;
-  username?: string;
+  categories: TriviaCategories | undefined;
+  triviaOptions: TriviaQueryParams | undefined;
+  timer: number;
+  isTimerActive: boolean;
+  username: string | undefined;
   difficulties: QuestionDifficulty[];
   questionTypes: { [key: string]: QuestionType };
   modes: { type: QuizMode; toolTip: string }[];
-  selectedMode?: QuizMode;
+  selectedMode: QuizMode | undefined;
 }
 
 export const quizAdapter: EntityAdapter<Question> =
@@ -56,6 +56,14 @@ export const initialState: QuizState = quizAdapter.getInitialState({
       toolTip: "A timed challenge to put your trivia skills to the test",
     },
   ],
+  categories: undefined,
+  error: null,
+  isTimerActive: false,
+  selectedMode: undefined,
+  selectedId: null,
+  timer: 0,
+  triviaOptions: undefined,
+  username: undefined,
 });
 
 export const reducer = createReducer(
@@ -132,3 +140,46 @@ export const reducer = createReducer(
     })
   )
 );
+
+// eslint-disable-next-line @ngrx/prefix-selectors-with-select
+export const quizFeature = createFeature({
+  name: "quiz",
+  reducer,
+  extraSelectors: ({
+    selectQuizState,
+    selectIds,
+    selectEntities,
+    selectCurrentIndex,
+  }) => ({
+    ...quizAdapter.getSelectors(selectQuizState),
+    selectCurrentQuestion: createSelector(
+      selectIds,
+      selectEntities,
+      selectCurrentIndex,
+      (ids, questions, currentIndex) => questions[ids[currentIndex]] as Question
+    ),
+  }),
+});
+
+export const {
+  selectCategories,
+  selectDifficulties,
+  selectEntities,
+  selectCurrentIndex,
+  selectError,
+  selectIds,
+  selectIsTimerActive,
+  selectLoaded,
+  selectModes,
+  selectQuestionTypes,
+  selectQuizState,
+  selectScore,
+  selectSelectedId,
+  selectSelectedMode,
+  selectTimer,
+  selectTriviaOptions,
+  selectUsername,
+  selectAll,
+  selectTotal,
+  selectCurrentQuestion,
+} = quizFeature;

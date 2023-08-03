@@ -29,8 +29,8 @@ export interface ImageOption {
 }
 
 export interface Question {
-  category: string;
   id: string;
+  category: string;
   correctAnswer: string | ImageOption[];
   incorrectAnswers: string[] | Array<ImageOption[]>;
   question: {
