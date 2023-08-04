@@ -1,3 +1,4 @@
+![CI Status](https://github.com/faizanalibugti/ng-quiz/actions/workflows/ci.yml/badge.svg)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/5540e81a-58ab-437b-a306-f94f9243b69e/deploy-status)](https://app.netlify.com/sites/faizan-ng-quiz/deploys)
 
 # Angular Quiz
