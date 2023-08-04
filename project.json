@@ -51,8 +51,8 @@
               "with": "src/environments/environment.development.ts"
             },
             {
-              "replace": "libs/core-data/src/lib/services/endpoints/endpoints.ts",
-              "with": "libs/core-data/src/lib/services/endpoints/endpoints.prod.ts"
+              "replace": "modules/core-data/src/lib/services/endpoints/endpoints.ts",
+              "with": "modules/core-data/src/lib/services/endpoints/endpoints.prod.ts"
             }
           ]
         },
