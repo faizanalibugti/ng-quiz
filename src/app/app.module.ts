@@ -41,7 +41,10 @@ import { TriviaFormComponent } from "./trivia-form/trivia-form.component";
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(appRoutes, { initialNavigation: "enabledBlocking", useHash: true }),
+    RouterModule.forRoot(appRoutes, {
+      initialNavigation: "enabledBlocking",
+      useHash: true,
+    }),
     CoreDataModule,
     MaterialModule,
     StoreModule.forRoot(
