@@ -1,5 +1,10 @@
 import { TriviaQueryParams } from "@angular-quiz/api-interfaces";
-import { ChangeDetectionStrategy, Component, OnInit, inject } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
@@ -12,7 +17,7 @@ import * as QuizActions from "../../app/+state/quiz/quiz.actions";
   selector: "angular-quiz-trivia-form",
   templateUrl: "./trivia-form.component.html",
   styleUrls: ["./trivia-form.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TriviaFormComponent implements OnInit {
   private readonly store = inject(Store);
