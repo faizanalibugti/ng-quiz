@@ -4,13 +4,12 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve",
-    "build": "nx build",
+    "build": "nx build --optimization=true",
     "test": "nx test"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "~15.2.0",
-    "@angular/cdk": "^15.2.0",
     "@angular/common": "~15.2.0",
     "@angular/compiler": "~15.2.0",
     "@angular/core": "~15.2.0",

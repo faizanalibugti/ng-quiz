@@ -25,6 +25,7 @@ import { QuizInfoComponent } from "./quiz/quiz-info/quiz-info.component";
 import { QuizComponent } from "./quiz/quiz.component";
 import { ResultsComponent } from "./results/results.component";
 import { TriviaFormComponent } from "./trivia-form/trivia-form.component";
+import { environment } from "../environments/environment.development";
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,7 +63,8 @@ import { TriviaFormComponent } from "./trivia-form/trivia-form.component";
     StoreRouterConnectingModule.forRoot({
       routerState: RouterState.Minimal,
     }),
-    StoreDevtoolsModule.instrument({}),
+    // Instrumentation must be imported after importing StoreModule
+    environment.imports,
     StoreModule.forFeature(fromQuiz.quizFeature),
     EffectsModule.forFeature([QuizEffects]),
   ],
