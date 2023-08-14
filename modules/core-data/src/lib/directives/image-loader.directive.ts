@@ -4,9 +4,11 @@ import { Directive, HostBinding, HostListener, Input } from "@angular/core";
   selector: "[angularQuizImageLoader]",
 })
 export class ImageLoaderDirective {
-  @Input() angularQuizImageLoader!: string; // URL of the image to load
+  // Image URL
+  @Input() angularQuizImageLoader!: string;
 
-  @HostBinding("class.loading") isLoading = true; // Add 'loading' class while image is loading
+  // Add 'loading' class while image is loading
+  @HostBinding("class.loading") isLoading = true;
 
   @HostListener("load")
   onLoad() {
