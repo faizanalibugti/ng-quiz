@@ -1,50 +1,127 @@
 <ng-container *ngIf="result$ | async as result">
-  <div class="flex flex-col place-items-center gap-4">
-    <h1 class="text-3xl font-bold mb-4">Quiz Result</h1>
+  <mat-tab-group>
+    <mat-tab label="Stats Overview">
+      <div
+        [angularQuizConfetti]="result.score / result.totalQuestions >= 0.8"
+        class="flex flex-col place-items-center gap-4"
+      >
+        <h1 class="my-4 text-3xl font-bold">Quiz Result</h1>
 
-    <h1 class="text-xl">
-      {{ result.username }}, you scored {{ result.score }} out of
-      {{ result.totalQuestions }}
-    </h1>
+        <h1 class="text-xl">
+          {{ result.username }}, you scored {{ result.score }} out of
+          {{ result.totalQuestions }}
+        </h1>
 
-    <p class="text-xl">
-      Your percentage is
-      {{ result.score / result.totalQuestions | percent }}
-    </p>
-
-    <ng-cotainer
-      [ngSwitch]="result.status"
-      class="text-2xl font-medium text-center leading-10"
-    >
-      <ng-container *ngSwitchCase="'Excellent'">
-        <p>Congratulations, {{ result.username }}! 🎉</p>
-        <p>Outstanding performance, you are a trivia champion</p>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'Good'">
-        <p>Impressive, {{ result.username }}! 🔥</p>
-        <p>You're on your way to becoming a quiz master!</p>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'Average'">
-        <p>Nice try, {{ result.username }}! 🚀</p>
-        <p>Keep up the good work and aim for even higher scores!</p>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'Fail'">
-        <p>Appreciate the effort, {{ result.username }}!</p>
-        <p>Better luck next time! 👍</p>
         <p class="text-xl">
-          Pro Tip: Try to sharpen your skills in the Practice Mode
+          Your percentage is
+          {{ result.score / result.totalQuestions | percent }}
         </p>
-      </ng-container>
-    </ng-cotainer>
 
-    <button
-      class="rounded shadow-md px-4 py-2 bg-blue-600 text-white place-content-center disabled:cursor-not-allowed disabled:bg-blue-500"
-      routerLink="/home"
-    >
-      Restart
-    </button>
-  </div>
+        <ng-cotainer
+          [ngSwitch]="result.status"
+          class="text-center text-2xl font-medium leading-10"
+        >
+          <ng-container *ngSwitchCase="'Excellent'">
+            <p>Congratulations, {{ result.username }}! 🎉</p>
+            <p>Outstanding performance, you are a trivia champion</p>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'Good'">
+            <p>Impressive, {{ result.username }}! 🔥</p>
+            <p>You're on your way to becoming a quiz master!</p>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'Average'">
+            <p>Nice try, {{ result.username }}! 🚀</p>
+            <p>Keep up the good work and aim for even higher scores!</p>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'Fail'">
+            <p>Appreciate the effort, {{ result.username }}!</p>
+            <p>Better luck next time! 👍</p>
+            <p class="text-xl">
+              Pro Tip: Try to sharpen your skills in the Practice Mode
+            </p>
+          </ng-container>
+        </ng-cotainer>
+
+        <button
+          class="place-content-center rounded bg-blue-600 px-4 py-2 text-white shadow-md disabled:cursor-not-allowed disabled:bg-blue-500"
+          routerLink="/home"
+        >
+          Restart
+        </button>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Review">
+      <div class="my-4 flex w-full flex-col gap-4">
+        <ng-container *ngFor="let question of result.questions">
+          <h1 class="text-xl">{{ question.question }}</h1>
+
+          <h2>Attempted: {{ question.response ? 'Yes' : 'Skipped' }}</h2>
+          <h2>
+            Response:
+            {{
+              question.response && question.response !== question.correctAnswer
+                ? 'Incorrect'
+                : 'Correct'
+            }}
+          </h2>
+
+          <ng-container [ngSwitch]="question.type">
+            <ng-container *ngSwitchCase="'text_choice'">
+              <div class="flex flex-col gap-3">
+                <ol class="list-inside list-[lower-alpha]">
+                  <li
+                    *ngFor="let option of question.answers | shuffle"
+                    [ngClass]="{
+                      'bg-green-500 text-white':
+                        option === question.correctAnswer,
+                      'bg-red-700 text-white':
+                        question.response &&
+                        question.response !== question.correctAnswer
+                          ? option === question.response
+                          : null
+                    }"
+                  >
+                    {{ option }}
+                  </li>
+                </ol>
+              </div>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'image_choice'">
+              <div class="grid w-[500px] auto-rows-[200px] grid-cols-2 gap-2">
+                <button
+                  class="relative w-full rounded bg-blue-400 p-3 font-medium text-white enabled:cursor-pointer enabled:hover:bg-blue-600"
+                  *ngFor="let option of question.answers | shuffle"
+                  [ngClass]="{
+                    'bg-green-500': option === question.correctAnswer,
+                    'bg-red-700':
+                      question.response &&
+                      question.response !== question.correctAnswer
+                        ? option === question.response
+                        : null
+                  }"
+                  disabled
+                  [value]="option"
+                >
+                  <img
+                    class="h-full w-full object-cover"
+                    style="position: unset"
+                    [angularQuizImageLoader]="option.url"
+                    [ngSrc]="option.url"
+                    [alt]="option.description"
+                    fill
+                    priority
+                  />
+                </button>
+              </div>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </ng-container>

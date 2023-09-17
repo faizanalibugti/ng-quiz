@@ -1,12 +1,19 @@
-import { createSelector } from "@ngrx/store";
-import { ResultViewState, ResultStatus } from "../models/result-view.model";
-import { selectScore, selectTotal, selectUsername } from "../quiz.reducer";
+import { createSelector } from '@ngrx/store';
+import { ResultViewState, ResultStatus } from '../models/result-view.model';
+import {
+  selectScore,
+  selectTotal,
+  selectUsername,
+  selectAll,
+} from '../quiz.reducer';
+import { mapQuestionToUI } from '../utils/quiz.utils';
 
 export const selectResultViewState = createSelector(
   selectScore,
   selectTotal,
   selectUsername,
-  (score, totalQuestions, username): ResultViewState => {
+  selectAll,
+  (score, totalQuestions, username, questions): ResultViewState => {
     const percentage = (score / totalQuestions) * 100;
     const status =
       percentage >= 90
@@ -17,6 +24,16 @@ export const selectResultViewState = createSelector(
         ? ResultStatus.AVERAGE
         : ResultStatus.FAIL;
 
-    return { score, totalQuestions, status, username };
+    const UIQuestionItems = questions.map((question) =>
+      mapQuestionToUI(question)
+    );
+
+    return {
+      score,
+      totalQuestions,
+      status,
+      username,
+      questions: UIQuestionItems,
+    };
   }
 );
