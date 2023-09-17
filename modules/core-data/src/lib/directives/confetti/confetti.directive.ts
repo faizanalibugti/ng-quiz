@@ -15,7 +15,7 @@ export class ConfettiDirective implements OnInit {
   }
 
   generateConfetti() {
-    let i = 100;
+    let i = 50;
 
     while (i > -1) {
       const confetti = this.renderer.createElement('div');
