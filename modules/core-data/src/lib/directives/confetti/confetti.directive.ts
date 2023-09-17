@@ -1,9 +1,4 @@
-import {
-  Directive,
-  ElementRef,
-  HostListener,
-  OnInit,
-} from '@angular/core';
+import { Directive, ElementRef, HostListener, OnInit } from '@angular/core';
 import { Confetti } from './confetti.model';
 
 @Directive({

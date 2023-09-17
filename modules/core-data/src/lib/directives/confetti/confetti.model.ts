@@ -4,7 +4,8 @@ interface Coordinates {
 }
 
 interface ColorPlacement {
-    front: string; back: string   
+  front: string;
+  back: string;
 }
 
 export interface Confetti {
