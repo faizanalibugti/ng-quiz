@@ -1,10 +1,13 @@
 <ng-container *ngIf="result$ | async as result">
-  <mat-tab-group>
+  <mat-tab-group dynamicHeight>
     <mat-tab label="Stats Overview">
-      <div
-        [angularQuizConfetti]="result.score / result.totalQuestions >= 0.8"
-        class="flex flex-col place-items-center gap-4"
-      >
+      <div class="flex flex-col place-items-center gap-4">
+        <canvas
+          id="canvas"
+          *ngIf="result.score / result.totalQuestions >= 0.8"
+          angularQuizConfetti
+        ></canvas>
+        
         <h1 class="my-4 text-3xl font-bold">Quiz Result</h1>
 
         <h1 class="text-xl">
