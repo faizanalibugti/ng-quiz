@@ -1,4 +1,9 @@
-import { ImageOption, TriviaCategories } from "@angular-quiz/api-interfaces";
+import {
+  ImageOption,
+  Question,
+  TriviaCategories,
+} from '@angular-quiz/api-interfaces';
+import { UIQuestion } from '../models/ui-question.model';
 
 export const formatTriviaCategories = (
   categrories: TriviaCategories
@@ -7,7 +12,7 @@ export const formatTriviaCategories = (
 
   for (const key in categrories) {
     const categoryValue = categrories[key].filter((value, index, array) =>
-      array.length === 1 ? value : value.includes("_")
+      array.length === 1 ? value : value.includes('_')
     );
 
     triviaCategories[key] = categoryValue;
@@ -22,4 +27,25 @@ export const mapImages = (
   return incorrectImageOptions.map((images) =>
     images.reduce((acc, curr) => (acc.size < curr.size ? acc : curr))
   );
+};
+
+export const mapQuestionToUI = (question: Question): UIQuestion => {
+  return {
+    questionId: question.id,
+    question: question.question.text,
+    answers: [
+      ...(typeof question.incorrectAnswers[0] === 'string'
+        ? question.incorrectAnswers
+        : mapImages(question.incorrectAnswers as Array<ImageOption[]>)),
+      typeof question.correctAnswer === 'string'
+        ? question.correctAnswer
+        : question.correctAnswer[0],
+    ] as string[] | ImageOption[],
+    response: question.response,
+    correctAnswer:
+      typeof question.correctAnswer === 'string'
+        ? question.correctAnswer
+        : question.correctAnswer[0],
+    type: question.type,
+  };
 };
