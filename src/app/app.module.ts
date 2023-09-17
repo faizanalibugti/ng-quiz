@@ -1,31 +1,30 @@
-import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 
-import { CoreDataModule, TimerPipe } from "@angular-quiz/core-data";
-import { MaterialModule } from "@angular-quiz/material";
-import { NgOptimizedImage } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { RouterModule } from "@angular/router";
-import { EffectsModule } from "@ngrx/effects";
+import { CoreDataModule, TimerPipe } from '@angular-quiz/core-data';
+import { MaterialModule } from '@angular-quiz/material';
+import { NgOptimizedImage } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
+import { EffectsModule } from '@ngrx/effects';
 import {
   RouterState,
   StoreRouterConnectingModule,
   routerReducer,
-} from "@ngrx/router-store";
-import { StoreModule } from "@ngrx/store";
-import { StoreDevtoolsModule } from "@ngrx/store-devtools";
-import { QuizEffects } from "./+state/quiz/quiz.effects";
-import * as fromQuiz from "./+state/quiz/quiz.reducer";
-import { AppComponent } from "./app.component";
-import { appRoutes } from "./app.routes";
-import { AnswerOptionsComponent } from "./quiz/answer-options/answer-options.component";
-import { QuizInfoComponent } from "./quiz/quiz-info/quiz-info.component";
-import { QuizComponent } from "./quiz/quiz.component";
-import { ResultsComponent } from "./results/results.component";
-import { TriviaFormComponent } from "./trivia-form/trivia-form.component";
-import { environment } from "../environments/environment.development";
+} from '@ngrx/router-store';
+import { StoreModule } from '@ngrx/store';
+import { QuizEffects } from './+state/quiz/quiz.effects';
+import * as fromQuiz from './+state/quiz/quiz.reducer';
+import { AppComponent } from './app.component';
+import { appRoutes } from './app.routes';
+import { AnswerOptionsComponent } from './quiz/answer-options/answer-options.component';
+import { QuizInfoComponent } from './quiz/quiz-info/quiz-info.component';
+import { QuizComponent } from './quiz/quiz.component';
+import { ResultsComponent } from './results/results.component';
+import { TriviaFormComponent } from './trivia-form/trivia-form.component';
+import { environment } from '../environments/environment.development';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +42,7 @@ import { environment } from "../environments/environment.development";
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes, {
-      initialNavigation: "enabledBlocking",
+      initialNavigation: 'enabledBlocking',
     }),
     CoreDataModule,
     MaterialModule,
@@ -64,7 +63,7 @@ import { environment } from "../environments/environment.development";
       routerState: RouterState.Minimal,
     }),
     // Instrumentation must be imported after importing StoreModule
-    environment.imports,
+    ...environment.imports,
     StoreModule.forFeature(fromQuiz.quizFeature),
     EffectsModule.forFeature([QuizEffects]),
   ],

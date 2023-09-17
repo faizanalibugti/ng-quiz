@@ -4,14 +4,14 @@ import {
   QuestionType,
   TriviaCategories,
   TriviaQueryParams,
-} from "@angular-quiz/api-interfaces";
-import { createEntityAdapter } from "@ngrx/entity";
-import { EntityAdapter, EntityState } from "@ngrx/entity/src";
-import { createFeature, createReducer, createSelector, on } from "@ngrx/store";
-import { QuizMode } from "./models/quiz-mode.model";
-import * as QuizActions from "./quiz.actions";
+} from '@angular-quiz/api-interfaces';
+import { createEntityAdapter } from '@ngrx/entity';
+import { EntityAdapter, EntityState } from '@ngrx/entity/src';
+import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
+import { QuizMode } from './models/quiz-mode.model';
+import * as QuizActions from './quiz.actions';
 
-export const quizFeatureKey = "quiz";
+export const quizFeatureKey = 'quiz';
 
 export interface QuizState extends EntityState<Question> {
   selectedId: string | number | null; // which Quiz record has been selected
@@ -43,17 +43,17 @@ export const initialState: QuizState = quizAdapter.getInitialState({
     QuestionDifficulty.HARD,
   ],
   questionTypes: {
-    "Text Choice": QuestionType.TEXT_CHOICE,
-    "Image Choice": QuestionType.IMAGE_CHOICE,
+    'Text Choice': QuestionType.TEXT_CHOICE,
+    'Image Choice': QuestionType.IMAGE_CHOICE,
   },
   modes: [
     {
       type: QuizMode.PRACTICE,
-      toolTip: "An un-timed learning mode to practice your trivia skills",
+      toolTip: 'An un-timed learning mode to practice your trivia skills',
     },
     {
       type: QuizMode.TRIVIA_CHALLENGE,
-      toolTip: "A timed challenge to put your trivia skills to the test",
+      toolTip: 'A timed challenge to put your trivia skills to the test',
     },
   ],
   categories: undefined,
@@ -120,7 +120,7 @@ export const reducer = createReducer(
         {
           ...state,
           score:
-            (typeof state.entities[questionId]?.correctAnswer === "string"
+            (typeof state.entities[questionId]?.correctAnswer === 'string'
               ? state.entities[questionId]?.correctAnswer
               : state.entities[questionId]?.correctAnswer[0]) === response
               ? state.score + 1
@@ -133,9 +133,6 @@ export const reducer = createReducer(
     QuizActions.quizActions.skipQuestion,
     (state): QuizState => ({
       ...state,
-      // currentIndex: state.ids[state.currentIndex + 1]
-      //   ? state.currentIndex + 1
-      //   : state.currentIndex,
       currentIndex: state.currentIndex + 1,
     })
   )
@@ -143,7 +140,7 @@ export const reducer = createReducer(
 
 // eslint-disable-next-line @ngrx/prefix-selectors-with-select
 export const quizFeature = createFeature({
-  name: "quiz",
+  name: 'quiz',
   reducer,
   extraSelectors: ({
     selectQuizState,
