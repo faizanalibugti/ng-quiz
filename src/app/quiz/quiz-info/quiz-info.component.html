@@ -1,5 +1,5 @@
-<div class="w-[70vw] flex justify-center">
-  <h1 class="font-bold text-center flex-1" [ngClass]="{ absolute: timer }">
+<div class="flex w-[70vw] justify-center">
+  <h1 class="flex-1 text-center font-bold" [ngClass]="{ absolute: timer }">
     Question {{ currentQuestionNumber }}/{{ totalQuestions }}
   </h1>
   <h1 class="ml-auto" *ngIf="timer">
@@ -18,4 +18,4 @@
     </span>
   </h1>
 </div>
-<h2 class="font-semibold text-center">Score: {{ score }}</h2>
+<h2 class="text-center font-semibold">Score: {{ score }}</h2>

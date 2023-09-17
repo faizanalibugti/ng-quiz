@@ -1,6 +1,6 @@
 <div
   *ngIf="quiz$ | async as quiz"
-  class="w-full flex flex-col gap-4 justify-center items-center"
+  class="flex w-full flex-col items-center justify-center gap-4"
 >
   <ng-container *ngIf="quiz.loaded; else loading">
     <angular-quiz-quiz-info
@@ -24,9 +24,9 @@
       ></angular-quiz-answer-options>
     </ng-container>
 
-    <div class="flex gap-3 mt-5">
+    <div class="mt-5 flex gap-3">
       <button
-        class="rounded shadow-md px-4 py-2 bg-blue-600 text-white place-content-center disabled:cursor-not-allowed disabled:bg-blue-500"
+        class="place-content-center rounded bg-blue-600 px-4 py-2 text-white shadow-md disabled:cursor-not-allowed disabled:bg-blue-500"
         [disabled]="!quiz.content?.response"
         (click)="
           quiz.currentIndex < quiz.totalQuestions
@@ -40,7 +40,7 @@
       </button>
 
       <button
-        class="rounded shadow-md px-4 py-2 bg-slate-500 text-white place-content-center disabled:cursor-not-allowed disabled:bg-blue-500"
+        class="place-content-center rounded bg-slate-500 px-4 py-2 text-white shadow-md disabled:cursor-not-allowed disabled:bg-blue-500"
         *ngIf="!quiz.content?.response && quiz.mode === 'practice'"
         (click)="skipQuestion()"
       >

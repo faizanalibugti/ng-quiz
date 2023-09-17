@@ -1,13 +1,13 @@
 <div
   [ngClass]="{
-    'grid grid-cols-2 gap-2 auto-rows-[200px]': questionType === 'image_choice',
-    'flex flex-col gap-3 w-[300px]': questionType === 'text_choice'
+    'grid auto-rows-[200px] grid-cols-2 gap-2': questionType === 'image_choice',
+    'flex w-[300px] flex-col gap-3': questionType === 'text_choice'
   }"
 >
   <ng-container [ngSwitch]="questionType">
     <ng-container *ngSwitchCase="'text_choice'">
       <button
-        class="text-white font-medium px-5 py-3 rounded bg-blue-400 w-full enabled:hover:bg-blue-600 enabled:cursor-pointer"
+        class="w-full rounded bg-blue-400 px-5 py-3 font-medium text-white enabled:cursor-pointer enabled:hover:bg-blue-600"
         *ngFor="let option of textOptions | shuffle : response"
         [ngClass]="{
           'bg-green-500':
@@ -29,7 +29,7 @@
 
     <ng-container *ngSwitchCase="'image_choice'">
       <button
-        class="text-white font-medium p-3 relative rounded bg-blue-400 w-full enabled:hover:bg-blue-600 enabled:cursor-pointer"
+        class="relative w-full rounded bg-blue-400 p-3 font-medium text-white enabled:cursor-pointer enabled:hover:bg-blue-600"
         *ngFor="let option of imageOptions | shuffle : response"
         [ngClass]="{
           'bg-green-500':
@@ -46,7 +46,7 @@
         (click)="recordResponse(option, questionId)"
       >
         <img
-          class="w-full h-full object-cover"
+          class="h-full w-full object-cover"
           style="position: unset"
           [angularQuizImageLoader]="option.url"
           [ngSrc]="option.url"
