@@ -3,13 +3,18 @@ interface Coordinates {
   y: number;
 }
 
-interface ColorPlacement {
-  front: string;
-  back: string;
-}
+export type Colors =
+  | 'red'
+  | 'green'
+  | 'blue'
+  | 'yellow'
+  | 'orange'
+  | 'pink'
+  | 'purple'
+  | 'turquoise';
 
 export interface Confetti {
-  color: ColorPlacement;
+  color: Colors;
   dimensions: Coordinates;
   position: Coordinates;
   rotation: number;
