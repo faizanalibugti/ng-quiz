@@ -8,7 +8,7 @@
     <ng-container *ngSwitchCase="'text_choice'">
       <button
         class="w-full rounded bg-blue-400 px-5 py-3 font-medium text-white enabled:cursor-pointer enabled:hover:bg-blue-600"
-        *ngFor="let option of textOptions | shuffle : response"
+        *ngFor="let option of answerChoices | shuffle : response"
         [ngClass]="{
           'bg-green-500':
             quizMode === 'practice' && response && option === correctAnswer,
@@ -30,7 +30,7 @@
     <ng-container *ngSwitchCase="'image_choice'">
       <button
         class="relative w-full rounded bg-blue-400 p-3 font-medium text-white enabled:cursor-pointer enabled:hover:bg-blue-600"
-        *ngFor="let option of imageOptions | shuffle : response"
+        *ngFor="let option of answerChoices | shuffle : response"
         [ngClass]="{
           'bg-green-500':
             quizMode === 'practice' && response && option === correctAnswer,

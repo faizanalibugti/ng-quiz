@@ -1,7 +1,7 @@
 <ng-container *ngIf="result$ | async as result">
   <mat-tab-group dynamicHeight>
     <mat-tab label="Stats Overview">
-      <div class="flex flex-col place-items-center gap-4">
+      <div class="flex h-[80vh] flex-col place-items-center gap-4">
         <canvas
           id="canvas"
           *ngIf="result.score / result.totalQuestions >= 0.8"
@@ -79,9 +79,8 @@
                   <li
                     *ngFor="let option of question.answers | shuffle"
                     [ngClass]="{
-                      'bg-green-500 text-white':
-                        option === question.correctAnswer,
-                      'bg-red-700 text-white':
+                      'text-green-500': option === question.correctAnswer,
+                      'text-red-700':
                         question.response &&
                         question.response !== question.correctAnswer
                           ? option === question.response
@@ -95,7 +94,7 @@
             </ng-container>
 
             <ng-container *ngSwitchCase="'image_choice'">
-              <div class="grid w-[500px] auto-rows-[200px] grid-cols-2 gap-2">
+              <div class="grid auto-rows-[200px] grid-cols-2 gap-2">
                 <button
                   class="relative w-full rounded bg-blue-400 p-3 font-medium text-white enabled:cursor-pointer enabled:hover:bg-blue-600"
                   *ngFor="let option of question.answers | shuffle"

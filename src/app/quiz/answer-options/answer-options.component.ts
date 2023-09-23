@@ -8,26 +8,15 @@ import { QuizMode } from "../../+state/quiz/models/quiz-mode.model";
   styleUrls: ["./answer-options.component.scss"],
 })
 export class AnswerOptionsComponent {
-  textOptions!: string[];
-  imageOptions!: ImageOption[];
-
   @Input() questionType!: QuestionType;
   @Input() questionId!: string;
 
-  @Input() set answerChoices(value: string[] | ImageOption[]) {
-    this.questionType === QuestionType.TEXT_CHOICE
-      ? (this.textOptions = value as string[])
-      : (this.imageOptions = value as ImageOption[]);
-  }
-
+  @Input() answerChoices: string[] | ImageOption[] = [];
   @Input() response?: string | ImageOption;
   @Input() correctAnswer!: string | ImageOption;
   @Input() quizMode!: QuizMode | undefined;
 
-  @Output() userResponse: EventEmitter<{
-    selectedOption: string | ImageOption;
-    questionId: string;
-  }> = new EventEmitter<{
+  @Output() userResponse = new EventEmitter<{
     selectedOption: string | ImageOption;
     questionId: string;
   }>();
