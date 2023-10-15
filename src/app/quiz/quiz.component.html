@@ -10,7 +10,7 @@
       [timer]="quiz?.timer"
     ></angular-quiz-quiz-info>
 
-    <h1 class="text-xl w-[300px]">{{ quiz.content?.question }}</h1>
+    <h1 class="w-[300px] text-xl">{{ quiz.content?.question }}</h1>
 
     <ng-container *ngIf="quiz.content as question">
       <angular-quiz-answer-options
