@@ -10,12 +10,12 @@ Welcome to the Trivia Quiz App, the ultimate destination for trivia enthusiasts!
 ### 📚 Practice Mode: Learn and Explore
 
 - **Un-timed Learning**: Dive into the world of trivia at your own pace, with no pressure from the clock.
-- **Customization**: Tailor your learning experience by choosing the number of questions, difficulty level, categories, and even the type of questions (text or image choice).
+- **Customization**: Tailor your learning experience by choosing the number of questions, difficulty level, categories, and even the type of questions (text or image choice - refer to API changes section below).
 
 ### 🚀 Trivia Challenge: Race Against Time
 
 - **Timed Challenge**: Challenge yourself to answer questions against the clock and discover just how quick-witted you are.
-- **Customization**: Customize your challenge by setting the number of questions, selecting the difficulty level, picking your favorite categories, and choosing between text or image-based questions.
+- **Customization**: Customize your challenge by setting the number of questions, selecting the difficulty level, picking your favorite categories, and choosing between text or image-based questions (refer to API changes section below).
 
 ## 💡 Technologies at Your Fingertips
 
@@ -32,7 +32,7 @@ This app harnesses the power of cutting-edge technologies to deliver a seamless 
 With the Trivia Quiz App, personalization is key. You have the power to fine-tune your trivia experience, which is totally optional:
 
 - **Number of Questions**: Choose how many questions you want to tackle in each mode.
-- **Difficulty Level**: Select a difficulty level that suits your expertise – easy, medium, or hard - or a combination of difficulties!.
+- **Difficulty Level**: Select a difficulty level that suits your expertise – easy, medium, or hard.
 - **Categories**: Explore an array of trivia categories to match your interests - you can choose multiple categories.
 - **Question Type**: Decide whether you prefer answering text-based questions or challenging image-based ones - or both!
 
@@ -45,6 +45,14 @@ In this Trivia Quiz app, your achievements are not just recognized but celebrate
 **Score High, Dance with Confetti:** But wait, there's more! If you've scored more than 80%, get ready for the ultimate treat – a dazzling confetti celebration! 🎊 We believe in making your victories memorable. So, if you're among the cream of the quiz crop, prepare to be showered in a cascade of colorful confetti. It's your moment to shine!
 
 In the Results section, we're all about making your quiz experience not just informative but exhilarating. It's where your journey from a curious explorer to a quiz champion begins. So, dive in, embrace the challenge, and let's celebrate your brilliance together! 🌟
+
+## API Changes
+
+The trivia API that this app relies on for image questions has undergone some changes. Previously, image questions were available for free, but the API now requires a subscription for access. Please note the following:
+
+- Image questions are no longer accessible without a subscription.
+- The API subscription is available at [API Provider's Subscription Page](https://the-trivia-api.com/license/).
+- The pricing and subscription details can be found on the provider's website.
 
 ## 🚀 Getting Started
 

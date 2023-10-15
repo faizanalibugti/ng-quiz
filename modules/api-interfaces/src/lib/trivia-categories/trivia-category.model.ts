@@ -5,6 +5,6 @@ export interface TriviaCategories {
 export interface TriviaQueryParams {
   limit: number;
   categories: string[];
-  difficulties: string[];
+  difficulties: string;
   types: string[];
 }

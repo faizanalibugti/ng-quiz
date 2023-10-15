@@ -1,11 +1,11 @@
-import { ImageOption, QuestionType } from "@angular-quiz/api-interfaces";
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { QuizMode } from "../../+state/quiz/models/quiz-mode.model";
+import { ImageOption, QuestionType } from '@angular-quiz/api-interfaces';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { QuizMode } from '../../+state/quiz/models/quiz-mode.model';
 
 @Component({
-  selector: "angular-quiz-answer-options",
-  templateUrl: "./answer-options.component.html",
-  styleUrls: ["./answer-options.component.scss"],
+  selector: 'angular-quiz-answer-options',
+  templateUrl: './answer-options.component.html',
+  styleUrls: ['./answer-options.component.scss'],
 })
 export class AnswerOptionsComponent {
   @Input() questionType!: QuestionType;
